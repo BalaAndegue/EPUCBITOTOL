@@ -314,7 +314,7 @@ export default function Contact() {
                   Pour une réponse rapide, contactez-nous sur WhatsApp
                 </p>
                 <a
-                  href="https://wa.me/33123456789"
+                  href="https://wa.me/237678346011S"
                   className="inline-flex items-center space-x-2 bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-all duration-300 hover:scale-105"
                 >
                   <Phone className="w-5 h-5" />
