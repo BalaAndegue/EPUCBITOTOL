@@ -1,4 +1,4 @@
-import { Calendar, Megaphone, MessageSquare, Users } from 'lucide-react';
+import { Calendar, Megaphone, MessageSquare, Users, Mail, Video } from 'lucide-react';
 import { getAdminStats } from '@/app/actions/admin';
 import Link from 'next/link';
 
@@ -13,6 +13,7 @@ export default async function AdminDashboard() {
 
     const statCards = [
         { name: 'Annonces', value: stats.announcements, icon: Megaphone, href: '/fr/admin/announcements', color: 'bg-blue-500' },
+        { name: 'Prédications', value: stats.sermons, icon: Video, href: '/fr/admin/messages', color: 'bg-red-500' },
         { name: 'Événements', value: stats.events, icon: Calendar, href: '/fr/admin/events', color: 'bg-green-500' },
         { name: 'Départements', value: stats.departments, icon: Users, href: '/fr/admin/departments', color: 'bg-purple-500' },
         {
@@ -23,6 +24,7 @@ export default async function AdminDashboard() {
             href: '/fr/admin/testimonials',
             color: 'bg-orange-500'
         },
+        { name: 'Newsletter', value: stats.subscribers, icon: Mail, href: '/fr/admin/newsletter', color: 'bg-indigo-500' },
     ];
 
     return (

@@ -19,12 +19,14 @@ export async function getAdminStats() {
     try {
         await checkAdmin();
 
-        const [eventsCount, announcementsCount, testimonialsTotal, testimonialsPending, departmentsCount] = await Promise.all([
+        const [eventsCount, announcementsCount, testimonialsTotal, testimonialsPending, departmentsCount, subscribersCount, sermonsCount] = await Promise.all([
             prisma.event.count(),
             prisma.announcement.count(),
             prisma.testimonial.count(),
             prisma.testimonial.count({ where: { isApproved: false } }),
             prisma.department.count(),
+            prisma.subscriber.count(),
+            prisma.sermon.count(),
         ]);
 
         return {
@@ -37,6 +39,8 @@ export async function getAdminStats() {
                     pending: testimonialsPending
                 },
                 departments: departmentsCount,
+                subscribers: subscribersCount,
+                sermons: sermonsCount,
             }
         };
     } catch (error) {
@@ -73,12 +77,12 @@ export async function deleteEvent(id: string) {
     try {
         await checkAdmin();
         await prisma.event.delete({ where: { id } });
-        
+
         revalidatePath('/');
         revalidatePath('/[locale]', 'page');
         revalidatePath('/[locale]/admin', 'page');
         revalidatePath('/[locale]/admin/events', 'page');
-        
+
         return { success: true };
     } catch (error) {
         console.error('Failed to delete event:', error);
@@ -93,12 +97,12 @@ export async function deleteDepartment(id: string) {
     try {
         await checkAdmin();
         await prisma.department.delete({ where: { id } });
-        
+
         revalidatePath('/');
         revalidatePath('/[locale]', 'page');
         revalidatePath('/[locale]/admin', 'page');
         revalidatePath('/[locale]/admin/departments', 'page');
-        
+
         return { success: true };
     } catch (error) {
         console.error('Failed to delete department:', error);
@@ -113,12 +117,12 @@ export async function deleteTestimonial(id: string) {
     try {
         await checkAdmin();
         await prisma.testimonial.delete({ where: { id } });
-        
+
         revalidatePath('/');
         revalidatePath('/[locale]', 'page');
         revalidatePath('/[locale]/admin', 'page');
         revalidatePath('/[locale]/admin/testimonials', 'page');
-        
+
         return { success: true };
     } catch (error) {
         console.error('Failed to delete testimonial:', error);
@@ -132,16 +136,16 @@ export async function deleteTestimonial(id: string) {
 export async function approveTestimonial(id: string) {
     try {
         await checkAdmin();
-        await prisma.testimonial.update({ 
+        await prisma.testimonial.update({
             where: { id },
             data: { isApproved: true }
         });
-        
+
         revalidatePath('/');
         revalidatePath('/[locale]', 'page');
         revalidatePath('/[locale]/admin', 'page');
         revalidatePath('/[locale]/admin/testimonials', 'page');
-        
+
         return { success: true };
     } catch (error) {
         console.error('Failed to approve testimonial:', error);

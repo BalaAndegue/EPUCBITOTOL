@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Heart, Phone, Mail, MapPin, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import NewsletterForm from '../NewsletterForm';
 
 const socialLinks = [
   { name: 'Facebook', href: '#', icon: Facebook },
@@ -112,11 +113,7 @@ export default function Footer() {
             </div>
 
             {/* Newsletter Simple */}
-            <div className="mt-8 pt-6 border-t border-slate-800">
-              <Link href="/contact" className="text-xs text-[var(--color-primary)] hover:underline flex items-center">
-                Besoin de prière ? Écrivez-nous →
-              </Link>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
 
