@@ -33,12 +33,12 @@ export default function AdminLayout({
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="h-screen pt-20 bg-gray-50 flex">
             {/* Sidebar */}
             <aside className="w-64 bg-white shadow-xl border-r border-gray-100 flex flex-col hidden md:flex">
                 <div className="h-16 flex items-center px-6 border-b border-gray-100">
                     <Heart className="w-6 h-6 text-[var(--color-primary)] mr-2" />
-                    <span className="text-xl font-bold text-gray-900">Admin EPUC</span>
+                    <span className="text-xl font-bold text-gray-900 tracking-tight">Admin EPUC</span>
                 </div>
 
                 <div className="flex-1 py-6 flex flex-col gap-1 overflow-y-auto">
@@ -80,14 +80,14 @@ export default function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col h-screen overflow-hidden">
+            <main className="flex-1 flex flex-col h-full overflow-hidden">
                 {/* Mobile Header (simplified) */}
                 <header className="md:hidden bg-white shadow-sm border-b border-gray-100 h-16 flex items-center px-4 justify-between">
                     <span className="text-lg font-bold">Admin EPUC</span>
                     <button onClick={handleLogout} className="text-red-600"><LogOut className="w-5 h-5" /></button>
                 </header>
 
-                <div className="flex-1 overflow-y-auto p-4 md:p-8">
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
                     {children}
                 </div>
             </main>
