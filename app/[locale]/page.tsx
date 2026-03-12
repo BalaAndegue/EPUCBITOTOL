@@ -14,11 +14,16 @@ import {
   Sparkles,
   Star,
   Send,
-  Bell
+  Bell,
+  MessageCircle,
+  Facebook
 } from 'lucide-react';
+import { toast } from 'sonner';
+import { getEvents, getTestimonials, submitTestimonial, getFloatingButtonStats } from '@/app/actions';
+import { useParams } from 'next/navigation';
 
-// REMPLACEZ CETTE URL PAR L'URL DE VOTRE IMAGE D'ÉGLISE
-const CHURCH_IMAGE_URL = 'https://i.pinimg.com/736x/b0/46/9b/b0469bb885471469662ce3d43db484d2.jpg';
+// Image chaleureuse d'une chorale ou d'un culte africain (now using the local provided image)
+const CHURCH_IMAGE_URL = '/church-cover.jpg';
 
 const features = [
   {
@@ -47,69 +52,66 @@ const features = [
   }
 ];
 
-const upcomingEvents = [
-  {
-    date: '2024-02-04',
-    title: 'Culte Dominical',
-    time: '09h00',
-    description: 'Venez adorer en communauté à EPUC Bitotol'
-  },
-  {
-    date: '2024-02-07',
-    title: 'Soirée de Prière',
-    time: '18h30',
-    description: 'Un moment de recueillement et d\'intercession'
-  },
-  {
-    date: '2024-02-10',
-    title: 'Réunion des Jeunes',
-    time: '16h00',
-    description: 'Thème: "Vivre sa foi au Cameroun"'
-  }
-];
-
-const testimonials = [
-  {
-    name: 'Maman Marie Ngongo',
-    role: 'Diaconesse',
-    content: 'Cette église a transformé ma vie. J\'ai trouvé une famille spirituelle merveilleuse ici à Bitotol et un sens profond à mon existence.',
-    rating: 5
-  },
-  {
-    name: 'Ancien Pierre Abena',
-    role: 'Responsable des Hommes',
-    content: 'L\'atmosphère de bienveillance et les enseignements profonds m\'ont aidé à grandir dans ma foi. C\'est une bénédiction pour notre quartier.',
-    rating: 5
-  },
-  {
-    name: 'Sœur Sarah Mballa',
-    role: 'Choriste',
-    content: 'Accueillie avec tant d\'amour et de patience. Chaque dimanche est une nouvelle bénédiction pour moi et ma famille.',
-    rating: 5
-  }
-];
-
 export default function Home() {
+  const locale = useParams()?.locale || 'fr';
   const [isVisible, setIsVisible] = useState(false);
   const [review, setReview] = useState({ name: '', comment: '', rating: 5 });
+  const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
+  const [testimonialsList, setTestimonialsList] = useState<any[]>([]);
+  const [announcementsCount, setAnnouncementsCount] = useState(0);
 
   useEffect(() => {
     setIsVisible(true);
+
+    // Fetch dynamic data from the backend
+    async function loadData() {
+      const [eventsRes, testimonialsRes, statsRes] = await Promise.all([
+        getEvents(),
+        getTestimonials(),
+        getFloatingButtonStats()
+      ]);
+
+      if (eventsRes.success && eventsRes.data) setUpcomingEvents(eventsRes.data);
+      if (testimonialsRes.success && testimonialsRes.data) setTestimonialsList(testimonialsRes.data);
+      if (statsRes.success && statsRes.data) setAnnouncementsCount(statsRes.data.recentAnnouncements);
+    }
+
+    loadData();
   }, []);
 
-  const handleReviewSubmit = (e: React.FormEvent) => {
+  const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Merci pour votre témoignage ! Il sera visible après modération.');
-    setReview({ name: '', comment: '', rating: 5 });
+    const res = await submitTestimonial({
+      name: review.name,
+      comment: review.comment,
+      rating: review.rating,
+    });
+
+    if (res.success) {
+      toast.success('Merci pour votre témoignage ! Il est maintenant visible.');
+      setReview({ name: '', comment: '', rating: 5 });
+
+      // Reload testimonials
+      const testimonialsRes = await getTestimonials();
+      if (testimonialsRes.success && testimonialsRes.data) {
+        setTestimonialsList(testimonialsRes.data);
+      }
+    } else {
+      toast.error(`Erreur lors de l'envoi du témoignage.`);
+    }
   };
 
   return (
     <>
       {/* Floating Alert Button for Announcements */}
-      <Link href="/announcements" className="fixed bottom-8 right-8 z-[100] animate-bounce">
+      <Link href={`/${locale}/announcements`} className="fixed bottom-8 right-8 z-[100] animate-bounce">
         <div className="bg-[var(--color-secondary)] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform cursor-pointer border-4 border-white flex items-center justify-center relative">
           <Bell className="w-8 h-8" fill="currentColor" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">3</span>
+          {announcementsCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
+              {announcementsCount}
+            </span>
+          )}
         </div>
       </Link>
 
@@ -229,12 +231,59 @@ export default function Home() {
             <div className="animate-scale-in">
               <div className="relative">
                 <img
-                  src="https://images.pexels.com/photos/5206040/pexels-photo-5206040.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Communauté en prière"
-                  className="rounded-2xl shadow-2xl"
+                  src="https://images.unsplash.com/photo-1510590337019-5ef8d3d32116?q=80&w=800&auto=format&fit=crop"
+                  alt="Communauté en prière et louange"
+                  className="rounded-2xl shadow-2xl w-full object-cover h-[400px]"
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Events Section */}
+      <section className="py-20 bg-[var(--color-background)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-[var(--color-primary)] mb-6">
+              Événements à Venir
+            </h2>
+            <p className="text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto">
+              Rejoignez-nous lors de nos prochains rassemblements à Bitotol.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {upcomingEvents.length === 0 ? (
+              <div className="col-span-3 text-center text-[var(--color-text-secondary)] py-10">
+                Aucun événement prévu pour le moment.
+              </div>
+            ) : (
+              upcomingEvents.map((event, index) => (
+                <div key={event.id} className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-shadow animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center text-[var(--color-secondary)] font-semibold">
+                      <Calendar className="w-5 h-5 mr-2" />
+                      {new Date(event.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{event.description}</p>
+                  <div className="flex items-center text-sm text-gray-500 space-x-4">
+                    <div className="flex items-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      {event.time}
+                    </div>
+                    {event.location && (
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        {event.location}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -244,40 +293,71 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6 text-white">
-              Témoignages de Foi
+              Témoignages & Pensées Édifiantes
             </h2>
             <p className="text-xl text-white/90">
-              Découvrez comment Dieu transforme des vies dans notre communauté
+              Découvrez les témoignages et pensées laissés par nos visiteurs et fidèles
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.name}
-                className={`bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 animate-fade-in`}
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" />
-                  ))}
-                </div>
-
-                <p className="text-white/90 mb-6 italic leading-relaxed">
-                  "{testimonial.content}"
-                </p>
-
-                <div>
-                  <div className="font-semibold text-white text-lg">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-white/70 text-sm font-medium">
-                    {testimonial.role}
-                  </div>
-                </div>
+            {testimonialsList.length === 0 ? (
+              <div className="col-span-3 text-center text-white/50 py-10">
+                Aucun témoignage pour le moment. Soyez le premier à partager !
               </div>
-            ))}
+            ) : (
+              testimonialsList.map((testimonial, index) => (
+                <div
+                  key={testimonial.id}
+                  className={`bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 animate-fade-in`}
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                >
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" />
+                    ))}
+                  </div>
+
+                  <p className="text-white/90 mb-6 italic leading-relaxed">
+                    "{testimonial.content}"
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold text-white text-lg">
+                        {testimonial.name}
+                      </div>
+                      {testimonial.role && (
+                        <div className="text-white/70 text-sm font-medium">
+                          {testimonial.role}
+                        </div>
+                      )}
+                    </div>
+                    {/* Share Buttons */}
+                    <div className="flex space-x-3">
+                      <a
+                        href={`https://wa.me/?text=${encodeURIComponent(`Pensée édifiante de ${testimonial.name} : "${testimonial.content}" - Lue sur EPUC Bitotol`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-white/10 hover:bg-[#25D366] rounded-full transition-colors text-white"
+                        title="Partager sur WhatsApp"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                      </a>
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://epuc-bitotol.com')}&quote=${encodeURIComponent(`Pensée édifiante de ${testimonial.name} : "${testimonial.content}"`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-white/10 hover:bg-[#1877F2] rounded-full transition-colors text-white"
+                        title="Partager sur Facebook"
+                      >
+                        <Facebook className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -288,8 +368,8 @@ export default function Home() {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-[var(--color-border)]">
             <div className="text-center mb-8">
               <MessageSquare className="w-12 h-12 mx-auto text-[var(--color-primary)] mb-4" />
-              <h2 className="text-3xl font-heading font-bold text-[var(--color-text-primary)]">Laissez un Témoignage</h2>
-              <p className="text-[var(--color-text-secondary)]">Partagez ce que Dieu a fait pour vous à EPUC Bitotol.</p>
+              <h2 className="text-3xl font-heading font-bold text-[var(--color-text-primary)]">Laissez un Commentaire ou une Pensée Édifiante</h2>
+              <p className="text-[var(--color-text-secondary)]">Partagez une réflexion, un verset, ou ce que l'église représente pour vous.</p>
             </div>
 
             <form onSubmit={handleReviewSubmit} className="space-y-6">

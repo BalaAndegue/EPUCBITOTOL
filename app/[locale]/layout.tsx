@@ -1,12 +1,10 @@
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { Inter, Playfair_Display } from 'next/font/google';
+// Removed next/font/google to prevent fetch errors during build
+// Fonts are now imported via globals.css
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
 export const metadata = {
   title: 'Église Pentecôtiste Unie du Cameroun - Bitotol',
@@ -24,7 +22,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <Header locale={locale} />
           <main className="min-h-screen">
