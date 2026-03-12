@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ------------------------------------------------------------------------
+       HIERARCHY COLORS - All 6 Content Types (from zip)
+       ------------------------------------------------------------------------ */
+    /* Course (Cours) - Blue - Top level */
+    --color-course: #3B82F6;
+    --color-course-light: #60A5FA;
+    --color-course-dark: #2563EB;
+    --color-course-bg: #DBEAFE;
+
+    /* Section/Partie - Purple/Violet - Level 1 */
+    --color-section: #8B5CF6;
+    --color-section-light: #A78BFA;
+    --color-section-dark: #7C3AED;
+    --color-section-bg: #EDE9FE;
+
+    /* Chapter/Chapitre - Green - Level 2 */
+    --color-chapter: #10B981;
+    --color-chapter-light: #34D399;
+    --color-chapter-dark: #059669;
+    --color-chapter-bg: #D1FAE5;
+
+    /* Paragraph/Paragraphe - Orange/Yellow - Level 3 */
+    --color-paragraph: #F59E0B;
+    --color-paragraph-light: #FBBF24;
+    --color-paragraph-dark: #D97706;
+    --color-paragraph-bg: #FEF3C7;
+
+    /* Notion - Red - Level 4 */
+    --color-notion: #EF4444;
+    --color-notion-light: #F87171;
+    --color-notion-dark: #DC2626;
+    --color-notion-bg: #FEE2E2;
+
+    /* Exercise/Exercice - Indigo - Special type */
+    --color-exercise: #6366F1;
+    --color-exercise-light: #818CF8;
+    --color-exercise-dark: #4F46E5;
+    --color-exercise-bg: #E0E7FF;
+
+    /* ------------------------------------------------------------------------
+       UI COLORS - General Interface Elements
+       ------------------------------------------------------------------------ */
+    /* Primary brand color - Purple */
+    --color-primary: #6D28D9;
+    /* Deep Purple */
+    --color-primary-hover: #5B21B6;
+    --color-primary-active: #4C1D95;
+
+    /* Secondary accent color - Yellow/Gold */
+    --color-secondary: #F59E0B;
+    --color-secondary-hover: #D97706;
+
+    /* Success, Warning, Error states */
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+
+    /* Neutral grays for text and backgrounds */
+    --color-background: #F9FAFB;
+    --color-surface: #FFFFFF;
+    --color-surface-elevated: #FFFFFF;
+
+    /* Borders */
+    --color-border: #E5E7EB;
+    --color-border-light: #F3F4F6;
+    --color-border-dark: #D1D5DB;
+
+    /* Text colors */
+    --color-text-primary: #111827;
+    /* Gray-900 (Black) */
+    --color-text-secondary: #4B5563;
+    /* Gray-600 */
+    --color-text-muted: #9CA3AF;
+    --color-text-inverse: #FFFFFF;
+
+    /* Variables for Tailwind mappings */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --primary: 262 80% 50%;
+    /* Purple */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 93% 47%;
+    /* Yellow */
+    --secondary-foreground: 0 0% 100%;
+    --accent: 262 80% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --radius: 0.5rem;
+
+    /* Font families */
+    --font-inter: 'Inter', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-[var(--color-border)];
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-inter);
+  }
+
+  .font-heading {
+    font-family: var(--font-playfair);
+  }
+
+  .font-inter {
+    font-family: var(--font-inter);
+  }
+}
+
+@layer components {
+
+  /* CAMEROON GRADIENT BUTTONS */
+  .btn-cameroon {
+    background: linear-gradient(135deg, #007A5E 0%, #CE1126 50%, #FCD116 100%);
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white border-2 border-transparent;
+  }
+
+  .btn-cameroon:hover {
+    box-shadow: 0 0 15px rgba(0, 122, 94, 0.5);
+  }
+
+  /* CUSTOM HERO GRADIENT (Black, Yellow, Purple) */
+  .hero-gradient-overlay {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(76, 29, 149, 0.7) 60%, rgba(245, 158, 11, 0.4) 100%);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #4C1D95 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-xl;
+    box-shadow: var(--shadow-md);
+    background-color: var(--color-surface);
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white;
+    background-color: var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white;
+    background-color: var(--color-secondary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}

@@ -1,0 +1,15 @@
+{
+    "Index": {
+        "title": "Welcome to EPUC Bitotol"
+    },
+    "Navigation": {
+        "home": "Home",
+        "about": "About",
+        "activities": "Activities",
+        "community": "Community",
+        "messages": "Sermons",
+        "contact": "Contact",
+        "donate": "Donate",
+        "bibles": "Bibles"
+    }
+}
