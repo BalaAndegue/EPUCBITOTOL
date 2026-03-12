@@ -11,9 +11,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    serverActions: true,
+  },
   images: {
     unoptimized: true,
-    domains: ['images.pexels.com', 'i.pinimg.com', 'customworld.onrender.com'],
+    domains: ['images.pexels.com', 'i.pinimg.com', 'customworld.onrender.com', 'images.unsplash.com'],
   },
   async headers() {
     return [
