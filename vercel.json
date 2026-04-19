@@ -1,0 +1,9 @@
+{
+  "buildCommand": "cp prisma/schema.postgresql.prisma prisma/schema.prisma && prisma generate && next build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["cdg1"],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
