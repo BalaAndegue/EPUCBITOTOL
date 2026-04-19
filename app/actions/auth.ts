@@ -3,19 +3,21 @@
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 
-const secretKey = process.env.SESSION_SECRET || 'secret-epuc-bitotol-2026-key-super-safe';
+const secretKey = process.env.JWT_SECRET || process.env.SESSION_SECRET || 'secret-epuc-bitotol-2026-dev-only';
 const encodedKey = new TextEncoder().encode(secretKey);
+
+// En production, utiliser des variables d'environnement pour les credentials.
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'epuc2026';
 
 export async function login(data: FormData) {
     const username = data.get('username') as string;
     const password = data.get('password') as string;
 
-    // Extremely simple hardcoded credentials for demo/lightweight usage
-    if (username === 'admin' && password === 'epuc2026') {
-        const expires = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // 10 days
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        const expires = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // 10 jours
 
-        // Create JWT Token
-        const session = await new SignJWT({ user: 'admin', role: 'root' })
+        const session = await new SignJWT({ user: ADMIN_USERNAME, role: 'admin' })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
             .setExpirationTime('10d')
@@ -46,7 +48,7 @@ export async function verifySession(token: string | undefined = '') {
             algorithms: ['HS256'],
         });
         return !!payload;
-    } catch (error) {
+    } catch {
         return false;
     }
 }

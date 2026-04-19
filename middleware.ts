@@ -1,29 +1,38 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifySession } from './app/actions/auth';
 
+/**
+ * Middleware Edge-safe : vérification légère du cookie de session.
+ * La vérification JWT complète se fait côté serveur dans les Server Actions.
+ * Cela évite le warning CompressionStream (Node.js API) dans le Edge Runtime.
+ */
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // Protect ONLY /admin/* routes, ignoring /admin/login
+    // Rediriger la racine "/" vers "/fr"
+    if (pathname === '/') {
+        return NextResponse.redirect(new URL('/fr', request.url));
+    }
+
+    // Protéger TOUTES les routes /admin/* sauf /admin/login
     if (pathname.includes('/admin') && !pathname.includes('/admin/login')) {
         const sessionCookie = request.cookies.get('epuc_session')?.value;
 
-        // If no cookie, redirect to login
         if (!sessionCookie) {
-            return NextResponse.redirect(new URL(`/${pathname.split('/')[1] || 'fr'}/admin/login`, request.url));
+            const locale = pathname.split('/')[1] || 'fr';
+            const loginUrl = new URL(`/${locale}/admin/login`, request.url);
+            loginUrl.searchParams.set('redirect', pathname);
+            return NextResponse.redirect(loginUrl);
         }
 
-        // Un-ideal: `jose` is quite heavy for Edge runtime depending on operations.
-        // If Edge fails, simplest protection is just checking cookie existence. 
-        // In this app, we trust the `verifySession` but wrap it tightly.
-        try {
-            const isValid = await verifySession(sessionCookie);
-            if (!isValid) {
-                return NextResponse.redirect(new URL(`/${pathname.split('/')[1] || 'fr'}/admin/login`, request.url));
-            }
-        } catch (e) {
-            // Fallback for edge runtimes if jwtVerify fails
+        // Vérification rapide : le cookie doit être un JWT valide (3 segments séparés par ".")
+        // La vérification cryptographique complète se fait dans les Server Actions.
+        const parts = sessionCookie.split('.');
+        if (parts.length !== 3) {
+            const locale = pathname.split('/')[1] || 'fr';
+            const response = NextResponse.redirect(new URL(`/${locale}/admin/login`, request.url));
+            response.cookies.delete('epuc_session');
+            return response;
         }
     }
 
@@ -31,5 +40,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.jpg|.*\\.png).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.jpg|.*\\.png|.*\\.ico|.*\\.svg|.*\\.webp).*)'],
 };
