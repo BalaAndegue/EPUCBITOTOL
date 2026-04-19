@@ -1,52 +1,43 @@
-import { Search, Calendar, Play } from 'lucide-react';
+import { Search, Mic2 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
-import SermonCard from '@/components/SermonCard';
+import MessagesClient from '@/components/MessagesClient';
+
+const IMG = {
+  hero: '/church-cover.webp',
+};
 
 export default async function Messages() {
-  const messages = await prisma.sermon.findMany({
-    orderBy: { date: 'desc' },
-  });
+  let sermons: any[] = [];
+
+  try {
+    sermons = await prisma.sermon.findMany({
+      orderBy: { date: 'desc' },
+    });
+  } catch (err) {
+    console.error('DB error (sermons):', err);
+  }
 
   return (
-    <div className="pt-20 bg-[var(--color-background)] min-h-screen">
-      {/* Header */}
-      <section className="bg-white py-16 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-[var(--color-text-primary)] mb-4">
-              Nos Prédications
-            </h1>
-            <p className="text-lg text-[var(--color-text-secondary)]">Réécoutez les messages qui ont béni notre assemblée.</p>
-          </div>
+    <div className="pt-20 min-h-screen" style={{ background: 'var(--church-cream)' }}>
 
-          {/* Search Bar - Visual Only for now */}
-          <div className="max-w-xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Rechercher un message, un thème..."
-              className="w-full pl-12 pr-4 py-4 rounded-full border border-gray-200 shadow-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent outline-none transition-all"
-            />
-          </div>
+      {/* HERO */}
+      <section className="relative h-56 sm:h-72 overflow-hidden">
+        <img src={IMG.hero} alt="Prédications" className="img-section" />
+        <div className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(7,10,20,.90) 0%, rgba(7,10,20,.45) 70%, transparent 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-5xl mx-auto">
+          <span className="badge-gold mb-3 inline-flex">Messages & Sermons</span>
+          <h1 className="font-display text-4xl sm:text-5xl font-semibold text-white">
+            Nos Prédications
+          </h1>
+          <p className="text-white/65 mt-2 max-w-lg text-sm sm:text-base">
+            Réécoutez les messages qui ont béni notre assemblée à Nkoabang.
+          </p>
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">
-              Aucune prédication n'a encore été publiée.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {messages.map((msg: any) => (
-                <SermonCard key={msg.id} sermon={msg} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Composant client : recherche + liste */}
+      <MessagesClient initialSermons={sermons} />
 
     </div>
   );
