@@ -1,100 +1,149 @@
-# EPUC Bitotol - Plateforme Web & Administration
+# EPUC Bitotol — Site Web Officiel
 
-Bienvenue sur le dépôt officiel du site web de l'**Église Protestante Unie du Cameroun (EPUC) - Paroisse de Bitotol**.  
-Ce projet est une plateforme web moderne bilingue (Français/Anglais) dotée d'une interface publique dynamique et d'un tableau de bord d'administration complet sécurisé pour la gestion du contenu (Annonces, Événements, Départements et Témoignages).
+Site web officiel de l'**Église Pentecôtiste Unie du Cameroun (EPUC) — Paroisse de Bitotol (Nkoabang)**.
 
----
-
-## 🚀 Fonctionnalités Principales
-
-- **Bilingue (i18n)** : Support complet du Français et de l'Anglais (via `next-intl`).
-- **Interface Publique Dynamique** : Page d'accueil, annonces en temps réel, événements à venir, formulaire de contact et témoignages interactifs.
-- **Bouton Flottant Intelligent** : Notification flottante indiquant les nouvelles annonces urgentes et récentes de la semaine.
-- **Administration Sécurisée (`/admin`)** : Tableau de bord protégé par mot de passe et JWT (JSON Web Tokens).
-- **CRUD Complet** : Gestion totale (Création, Lecture, Mise à jour, Suppression) des Annonces, Événements, Départements et la modération des Témoignages.
-- **Partage Social** : Boutons de partage WhatsApp et Facebook intégrés.
+Plateforme moderne, bilingue (Français / Anglais), Progressive Web App (PWA), avec une interface publique dynamique et un tableau de bord d'administration complet.
 
 ---
 
-## 🛠️ Stack Technique
+## Fonctionnalités
 
-Ce projet utilise des technologies de pointe pour garantir performance, sécurité et maintenabilité :
-
-- **Framework** : [Next.js 13+](https://nextjs.org/) (App Router)
-- **Langage** : TypeScript
-- **Style & UI** : [Tailwind CSS](https://tailwindcss.com/), Radix UI (composants accessibles), et Lucide React (icônes).
-- **Base de données** : PostgreSQL (Production sur Vercel)
-- **ORM** : [Prisma](https://www.prisma.io/)
-- **Authentification Admin** : `jose` (JWT avec validation Edge/Middleware) et Cookies HTTP-Only.
-- **Notifications UI** : `sonner` (Toast notifications).
+- **Bilingue (FR / EN)** — Internationalisation complète via `next-intl`
+- **Page d'accueil** — Carousel hero, sections "Qui sommes-nous", promesses, événements à venir
+- **Annonces** — Badges urgents/normaux, partage WhatsApp
+- **Prédications** — Liste des sermons avec recherche en temps réel (client-side)
+- **Faire un don** — MTN MoMo, Orange Money, virement bancaire
+- **Bible** — Liste des versions, verset du jour via API, lecture et téléchargement
+- **Contact** — Carte, directions depuis Biteng, lien WhatsApp
+- **Administration sécurisée** (`/admin`) — JWT + cookies HTTP-only, protégé par Middleware Edge
+- **CRUD complet** — Annonces, Événements, Départements, Témoignages, Prédications
+- **Newsletter** — Envoi de versets bibliques quotidiens via Gmail SMTP
+- **PWA** — Installable sur mobile/desktop, service worker, mode hors-ligne
+- **SEO** — Sitemap dynamique, balises Open Graph
+- **Analytics** — Vercel Analytics intégré
 
 ---
 
-## 🏗️ Architecture du Projet
+## Stack Technique
 
-```text
+| Couche | Technologie |
+|---|---|
+| Framework | Next.js 13+ (App Router) |
+| Langage | TypeScript |
+| Style | Tailwind CSS + système de couleurs sacré |
+| Base de données | SQLite (dev) / PostgreSQL (prod) |
+| ORM | Prisma |
+| Auth Admin | `jose` JWT + Middleware Edge |
+| Icons | Lucide React |
+| Notifications | `sonner` (toasts) |
+| Emails | `nodemailer` + Gmail SMTP |
+| Déploiement | Vercel + Neon PostgreSQL |
+
+---
+
+## Architecture
+
+```
 ├── app/
-│   ├── actions/           # Server Actions (Logique backend, accès DB, authentification)
-│   ├── [locale]/          # Pages de l'application (Support multi-langues)
-│   │   ├── admin/         # Tableau de bord d'administration (Protégé par Middleware)
-│   │   ├── announcements/ # Page publique des annonces
-│   │   ├── contact/       # Page de contact
-│   │   └── page.tsx       # Page d'accueil publique
-│   ├── globals.css        # Styles CSS globaux (Tailwind)
-│   └── layout.tsx         # Root Layout
-├── components/            # Composants React réutilisables (Header, Footer, UI)
-├── lib/                   # Utilitaires (Instance Prisma, etc.)
-├── messages/              # Dictionnaires de traduction (fr.json, en.json)
-├── prisma/                # Configuration Prisma ORM (schema.prisma)
-└── middleware.ts          # Middleware Next.js (Protection des routes /admin)
+│   ├── [locale]/              # Pages publiques (FR / EN)
+│   │   ├── page.tsx           # Accueil
+│   │   ├── about/             # Qui sommes-nous
+│   │   ├── announcements/     # Annonces
+│   │   ├── messages/          # Prédications
+│   │   ├── donate/            # Faire un don
+│   │   ├── bibles/            # Versions de la Bible
+│   │   ├── contact/           # Contact
+│   │   └── admin/             # Tableau de bord (protégé)
+│   ├── actions/               # Server Actions (DB, auth)
+│   ├── api/
+│   │   ├── verse/             # API verset du jour
+│   │   └── newsletter/        # API envoi newsletter
+│   └── sitemap.ts             # Sitemap dynamique SEO
+├── components/                # Header, Footer, composants UI
+├── lib/                       # Singleton Prisma
+├── messages/                  # Traductions (fr.json, en.json)
+├── prisma/
+│   ├── schema.prisma          # Schéma SQLite (dev)
+│   ├── schema.postgresql.prisma # Schéma PostgreSQL (prod)
+│   └── seed.ts                # Données fictives camerounaises
+├── public/
+│   ├── icons/                 # Icônes PWA
+│   ├── *.webp                 # Images optimisées WebP
+│   └── sw.js                  # Service Worker
+├── vercel.json                # Config déploiement Vercel
+├── middleware.ts              # Protection routes /admin (Edge)
+└── README_DEPLOY.md           # Guide déploiement détaillé
 ```
 
 ---
 
-## 💻 Tester en Local
+## Démarrage en local
 
-Pour exécuter ce projet sur votre machine locale, suivez ces étapes :
+### Prérequis
+- Node.js v18+
+- npm ou pnpm
 
-### 1. Prérequis
-- [Node.js](https://nodejs.org/) (v18 ou supérieur)
-- Une base de données **PostgreSQL** locale ou distante (ex: Supabase, Neon, ou Vercel Postgres).
+### Installation
 
-### 2. Installation
-Clonez le dépôt et installez les dépendances :
 ```bash
-git clone https://github.com/votre-nom/epuc-bitotol.git
-cd epuc-bitotol
+git clone https://github.com/BalaAndegue/EPUCBITOTOL.git
+cd EPUCBITOTOL
 npm install
 ```
 
-### 3. Variables d'environnement
-Créez un fichier `.env` à la racine du projet et ajoutez vos chaînes de connexion PostgreSQL ainsi qu'une clé secrète pour les sessions :
+### Variables d'environnement
+
+Copiez `.env.example` vers `.env` et remplissez les valeurs :
+
+```bash
+cp .env.example .env
+```
+
+Valeurs minimales pour le développement local :
 
 ```env
-# Clé secrète pour chiffrer les sessions de l'admin (Mettez une chaîne aléatoire complexe)
-SESSION_SECRET="votre_cle_secrete_ultra_securisee_2026"
-
-# Connexion à votre base de données PostgreSQL
-POSTGRES_PRISMA_URL="postgresql://user:password@localhost:5432/epuc_db?schema=public"
-POSTGRES_URL_NON_POOLING="postgresql://user:password@localhost:5432/epuc_db?schema=public"
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="votre-cle-secrete-locale"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="epuc2026"
 ```
 
-### 4. Base de données
-Poussez le schéma Prisma vers votre base de données pour créer les tables :
+### Base de données
+
 ```bash
-npx prisma db push
+npx prisma db push          # Crée les tables SQLite
+npm run seed                 # Peuple avec des données fictives camerounaises
 ```
 
-### 5. Lancement
-Démarrez le serveur de développement :
+### Lancement
+
 ```bash
 npm run dev
 ```
-Le site sera accessible sur [http://localhost:3000](http://localhost:3000).  
-L'administration est accessible sur `http://localhost:3000/fr/admin` (Identifiants par défaut selon le code source : `admin` / `epuc2026`).
+
+- Site public : [http://localhost:3000](http://localhost:3000) → redirige automatiquement vers `/fr`
+- Administration : [http://localhost:3000/fr/admin](http://localhost:3000/fr/admin)
+- Identifiants par défaut : `admin` / `epuc2026`
 
 ---
 
-## 👨‍💻 Auteur
+## Déploiement sur Vercel
 
-Créé et développé par **Bala Andegue**.
+Consultez le guide complet dans [`README_DEPLOY.md`](./README_DEPLOY.md).
+
+Résumé des étapes :
+1. Créer une base PostgreSQL sur [Neon.tech](https://neon.tech) (gratuit)
+2. Configurer les variables d'environnement sur Vercel
+3. `vercel.json` copie automatiquement le schéma PostgreSQL lors du build
+
+---
+
+## Localisation
+
+**Nkoabang — entrée école, avant le 10ème arrêt en venant de Biteng**
+
+---
+
+## Auteur
+
+Développé par **Bala Andegue François Lionnel**
