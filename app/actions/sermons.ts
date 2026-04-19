@@ -30,7 +30,7 @@ export async function getSermons() {
 /**
  * Create a new Sermon (Admin only)
  */
-export async function createSermon(data: { title: string; preacher: string; date: Date; description?: string; verses?: string; videoUrl?: string; downloadUrl?: string }) {
+export async function createSermon(data: { title: string; preacher: string; date: Date; description?: string; verses?: string; videoUrl?: string; audioUrl?: string }) {
     try {
         await checkAdmin();
         const newSermon = await prisma.sermon.create({

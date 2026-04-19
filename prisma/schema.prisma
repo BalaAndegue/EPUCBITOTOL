@@ -64,7 +64,7 @@ model Sermon {
   description String?
   verses      String?
   videoUrl    String?
-  downloadUrl String?
+  audioUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

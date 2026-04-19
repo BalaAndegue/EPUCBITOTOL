@@ -190,7 +190,7 @@ async function main() {
         description: 'Une prédication puissante sur la signification et l\'autorité du nom de Jésus dans la vie du croyant.',
         verses: 'Philippiens 2:9-11 ; Actes 4:12',
         videoUrl: null,
-        downloadUrl: null,
+        audioUrl: null,
       },
       {
         title: 'Le Saint-Esprit : Votre Consolateur',
@@ -199,7 +199,7 @@ async function main() {
         description: 'Enseignement sur le rôle du Saint-Esprit dans la vie quotidienne du chrétien baptisé.',
         verses: 'Jean 14:16-17 ; Romains 8:26',
         videoUrl: null,
-        downloadUrl: null,
+        audioUrl: null,
       },
       {
         title: 'Vivre Sainement dans un Monde Souillé',
@@ -208,7 +208,7 @@ async function main() {
         description: 'Comment maintenir une vie de sainteté et de séparation dans le contexte africain contemporain.',
         verses: '1 Pierre 1:15-16 ; Romains 12:2',
         videoUrl: null,
-        downloadUrl: null,
+        audioUrl: null,
       },
       {
         title: 'La Foi qui Déplace les Montagnes',
@@ -217,7 +217,7 @@ async function main() {
         description: 'Étude sur les fondements de la foi biblique à partir des exemples d\'Abraham et d\'Élie.',
         verses: 'Matthieu 17:20 ; Hébreux 11:1-6',
         videoUrl: null,
-        downloadUrl: null,
+        audioUrl: null,
       },
       {
         title: 'Le Baptême au Nom de Jésus — Fondement de l\'ÉPUC',
@@ -226,7 +226,7 @@ async function main() {
         description: 'Enseignement central sur la doctrine du baptême en eau au nom de Jésus-Christ, fondement théologique de l\'Église Pentecôtiste Unie.',
         verses: 'Actes 2:38 ; Actes 8:16 ; Colossiens 2:12',
         videoUrl: null,
-        downloadUrl: null,
+        audioUrl: null,
       },
     ],
   });
