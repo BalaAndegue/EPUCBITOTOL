@@ -28,6 +28,13 @@ yarn-error.log*
 .env
 .env*.local
 
+# SQLite local database
+prisma/dev.db
+prisma/*.db
+
+# WhatsApp media imports
+WhatsApp*/
+
 # vercel
 .vercel
 

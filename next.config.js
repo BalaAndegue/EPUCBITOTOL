@@ -1,13 +1,10 @@
 /** @type {import('next').NextConfig} */
 const createNextIntlPlugin = require('next-intl/plugin');
 
-// Explicitly point to the i18n configuration file
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  optimizeFonts: false,
   eslint: {
     ignoreDuringBuilds: true,
   },
