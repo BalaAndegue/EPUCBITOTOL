@@ -1,219 +1,477 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* ------------------------------------------------------------------------
-       HIERARCHY COLORS - All 6 Content Types (from zip)
-       ------------------------------------------------------------------------ */
-    /* Course (Cours) - Blue - Top level */
-    --color-course: #3B82F6;
-    --color-course-light: #60A5FA;
-    --color-course-dark: #2563EB;
-    --color-course-bg: #DBEAFE;
+    /* ============================================================
+       CHURCH 2026 — Palette Sacrée (Foi · Sainteté · Unicité)
+    ============================================================ */
 
-    /* Section/Partie - Purple/Violet - Level 1 */
-    --color-section: #8B5CF6;
-    --color-section-light: #A78BFA;
-    --color-section-dark: #7C3AED;
-    --color-section-bg: #EDE9FE;
+    /* Nuit Sacrée — fond des sections héro & sombres */
+    --church-dark:        #070A14;
+    --church-navy:        #0D1425;
+    --church-navy-mid:    #111827;
 
-    /* Chapter/Chapitre - Green - Level 2 */
-    --color-chapter: #10B981;
-    --color-chapter-light: #34D399;
-    --color-chapter-dark: #059669;
-    --color-chapter-bg: #D1FAE5;
+    /* Or Divin — accent principal, représente la gloire de Dieu */
+    --church-gold:        #C9973A;
+    --church-gold-light:  #E8B84B;
+    --church-gold-pale:   #FDE68A;
+    --church-gold-bg:     #FFFBEB;
 
-    /* Paragraph/Paragraphe - Orange/Yellow - Level 3 */
-    --color-paragraph: #F59E0B;
-    --color-paragraph-light: #FBBF24;
-    --color-paragraph-dark: #D97706;
-    --color-paragraph-bg: #FEF3C7;
+    /* Vert Espérance — vie, croissance, Esprit-Saint */
+    --church-green:       #1A5E3A;
+    --church-green-mid:   #16803A;
+    --church-green-light: #22C55E;
+    --church-green-soft:  #DCFCE7;
+    --church-green-bg:    #F0FDF4;
 
-    /* Notion - Red - Level 4 */
-    --color-notion: #EF4444;
-    --color-notion-light: #F87171;
-    --color-notion-dark: #DC2626;
-    --color-notion-bg: #FEE2E2;
+    /* Rouge Sang — sacrifice, rédemption, Pentecôte */
+    --church-red:         #7F1D1D;
+    --church-red-mid:     #B91C1C;
+    --church-red-light:   #EF4444;
+    --church-red-soft:    #FEE2E2;
+    --church-red-bg:      #FFF1F2;
 
-    /* Exercise/Exercice - Indigo - Special type */
-    --color-exercise: #6366F1;
-    --color-exercise-light: #818CF8;
-    --color-exercise-dark: #4F46E5;
-    --color-exercise-bg: #E0E7FF;
+    /* Violet Royal — Sanctification & Sainteté */
+    --church-purple:      #4C1D95;
+    --church-purple-mid:  #5B21B6;
+    --church-purple-soft: #EDE9FE;
 
-    /* ------------------------------------------------------------------------
-       UI COLORS - General Interface Elements
-       ------------------------------------------------------------------------ */
-    /* Primary brand color - Purple */
-    --color-primary: #6D28D9;
-    /* Deep Purple */
-    --color-primary-hover: #5B21B6;
-    --color-primary-active: #4C1D95;
+    /* Bleu Royal — Foi & Profondeur */
+    --church-blue:        #1E3A8A;
+    --church-blue-mid:    #1D4ED8;
+    --church-blue-soft:   #EFF6FF;
 
-    /* Secondary accent color - Yellow/Gold */
-    --color-secondary: #F59E0B;
-    --color-secondary-hover: #D97706;
+    /* Crème Chaleureux — fond des sections lumineuses */
+    --church-cream:       #FDFAF4;
+    --church-cream-deep:  #F9F4EA;
+    --church-white:       #FFFFFF;
 
-    /* Success, Warning, Error states */
-    --color-success: #10B981;
-    --color-warning: #F59E0B;
-    --color-error: #EF4444;
-    --color-info: #3B82F6;
+    /* Textes */
+    --church-text:        #1C1917;
+    --church-text-mid:    #44403C;
+    --church-text-soft:   #78716C;
+    --church-text-inv:    #FFFFFF;
 
-    /* Neutral grays for text and backgrounds */
-    --color-background: #F9FAFB;
-    --color-surface: #FFFFFF;
-    --color-surface-elevated: #FFFFFF;
+    /* Bordures */
+    --church-border:      #E7E0D4;
+    --church-border-soft: #F0EBE0;
 
-    /* Borders */
-    --color-border: #E5E7EB;
-    --color-border-light: #F3F4F6;
-    --color-border-dark: #D1D5DB;
+    /* ============================================================
+       MAPPING TAILWIND/SHADCN
+    ============================================================ */
+    --color-primary:          var(--church-blue);
+    --color-primary-hover:    var(--church-blue-mid);
+    --color-secondary:        var(--church-gold);
+    --color-secondary-hover:  var(--church-gold-light);
+    --color-background:       var(--church-cream);
+    --color-surface:          var(--church-white);
+    --color-border:           var(--church-border);
+    --color-border-light:     var(--church-border-soft);
+    --color-text-primary:     var(--church-text);
+    --color-text-secondary:   var(--church-text-mid);
+    --color-text-muted:       var(--church-text-soft);
 
-    /* Text colors */
-    --color-text-primary: #111827;
-    /* Gray-900 (Black) */
-    --color-text-secondary: #4B5563;
-    /* Gray-600 */
-    --color-text-muted: #9CA3AF;
-    --color-text-inverse: #FFFFFF;
+    /* Couleurs hiérarchie contenu */
+    --color-course:           #1D4ED8;
+    --color-course-bg:        #EFF6FF;
+    --color-section:          #5B21B6;
+    --color-section-bg:       #EDE9FE;
+    --color-chapter:          #059669;
+    --color-chapter-bg:       #ECFDF5;
+    --color-paragraph:        #D97706;
+    --color-paragraph-bg:     #FFFBEB;
+    --color-notion:           #DC2626;
+    --color-notion-bg:        #FEF2F2;
+    --color-exercise:         #7C3AED;
+    --color-exercise-bg:      #F5F3FF;
 
-    /* Variables for Tailwind mappings */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-    --primary: 262 80% 50%;
-    /* Purple */
+    /* ShadCN */
+    --background: 40 30% 98%;
+    --foreground: 20 14% 11%;
+    --primary: 224 71% 35%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 45 93% 47%;
-    /* Yellow */
+    --secondary: 38 72% 50%;
     --secondary-foreground: 0 0% 100%;
-    --accent: 262 80% 50%;
+    --muted: 40 20% 95%;
+    --muted-foreground: 25 15% 46%;
+    --accent: 262 60% 40%;
     --accent-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 11%;
+    --border: 35 25% 88%;
+    --ring: 224 71% 35%;
+    --radius: 0.75rem;
 
-    --radius: 0.5rem;
+    /* Polices */
+    --font-body:    'Inter', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-display: 'Cormorant Garamond', serif;
 
-    /* Font families */
-    --font-inter: 'Inter', sans-serif;
-    --font-playfair: 'Playfair Display', serif;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    /* Ombres */
+    --shadow-xs: 0 1px 3px rgb(0 0 0 / .04), 0 1px 2px rgb(0 0 0 / .03);
+    --shadow-sm: 0 2px 8px rgb(0 0 0 / .05), 0 1px 3px rgb(0 0 0 / .04);
+    --shadow-md: 0 4px 16px rgb(0 0 0 / .07), 0 2px 6px rgb(0 0 0 / .05);
+    --shadow-lg: 0 10px 30px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .05);
+    --shadow-xl: 0 20px 50px rgb(0 0 0 / .10), 0 8px 20px rgb(0 0 0 / .06);
+    --shadow-gold: 0 4px 20px rgb(201 151 58 / .25);
   }
 }
 
+/* ================================================================
+   BASE
+================================================================ */
 @layer base {
-  * {
-    @apply border-[var(--color-border)];
-  }
+  * { @apply border-[var(--church-border)]; }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-text-primary);
-    font-family: var(--font-inter);
+    background-color: var(--church-cream);
+    color: var(--church-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
 
-  .font-heading {
-    font-family: var(--font-playfair);
-  }
-
-  .font-inter {
-    font-family: var(--font-inter);
-  }
-}
-
+  .font-heading  { font-family: var(--font-heading); }
+  .font-display  { font-family: var(--font-display); }
+  .font-inter    { font-family: var(--font-body); }
+}/* ================================================================
+   COMPOSANTS
+================================================================ */
 @layer components {
 
-  /* CAMEROON GRADIENT BUTTONS */
+  /* ---- CARTES ---- */
+  .card-soft {
+    background: var(--church-white);
+    border: 1px solid var(--church-border-soft);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+  }
+  .card-soft:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--church-border);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+    background: var(--church-white);
+    border: 1px solid var(--church-border-soft);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .card-hover:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  /* Carte vitrine (glass sur fond sombre) */
+  .card-glass {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 1rem;
+    transition: background .25s ease;
+    color: rgba(255,255,255,.90);
+  }
+  .card-glass:hover { background: rgba(255, 255, 255, .13); }
+
+  /* Carte gold-glass */
+  .card-glass-gold {
+    background: rgba(201, 151, 58, .10);
+    border: 1px solid rgba(201, 151, 58, .25);
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+    color: rgba(255,255,255,.90);
+  }
+
+  /* ---- BOUTONS ---- */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
+    background: var(--church-blue);
+    box-shadow: 0 4px 14px rgba(30, 58, 138, .30);
+  }
+  .btn-primary:hover {
+    background: var(--church-blue-mid);
+    box-shadow: 0 6px 20px rgba(30, 58, 138, .40);
+    transform: translateY(-1px);
+  }
+
+  .btn-gold {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
+    background: linear-gradient(135deg, var(--church-gold) 0%, var(--church-gold-light) 100%);
+    box-shadow: var(--shadow-gold);
+    color: #1C1917;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(201, 151, 58, .35);
+  }
+
   .btn-cameroon {
     background: linear-gradient(135deg, #007A5E 0%, #CE1126 50%, #FCD116 100%);
-    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white border-2 border-transparent;
+    @apply px-7 py-3.5 rounded-xl font-semibold text-white inline-flex items-center gap-2 transition-all duration-300;
+    box-shadow: 0 4px 16px rgba(0,0,0,.20);
   }
-
   .btn-cameroon:hover {
-    box-shadow: 0 0 15px rgba(0, 122, 94, 0.5);
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(0,0,0,.28);
   }
 
-  /* CUSTOM HERO GRADIENT (Black, Yellow, Purple) */
+  .btn-outline-white {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    border: 1.5px solid rgba(255,255,255,.40);
+    color: white;
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(8px);
+  }
+  .btn-outline-white:hover {
+    background: rgba(255,255,255,.14);
+    border-color: rgba(255,255,255,.65);
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    border: 1.5px solid var(--church-blue);
+    color: var(--church-blue);
+  }
+  .btn-outline:hover {
+    background: var(--church-blue);
+    color: white;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
+    background: var(--church-gold);
+  }
+  .btn-secondary:hover {
+    background: var(--church-gold-light);
+    transform: translateY(-1px);
+  }
+
+  /* ---- OVERLAYS HERO ---- */
   .hero-gradient-overlay {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(76, 29, 149, 0.4) 60%, rgba(245, 158, 11, 0.2) 100%);
+    background: linear-gradient(
+      160deg,
+      rgba(7, 10, 20, .78) 0%,
+      rgba(13, 20, 37, .65) 45%,
+      rgba(30, 58, 138, .35) 100%
+    );
   }
 
-  .gradient-primary {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #4C1D95 100%);
+  /* ---- SECTION BACKGROUNDS ---- */
+  .section-dark {
+    background: linear-gradient(160deg, var(--church-dark) 0%, var(--church-navy) 100%);
+    color: rgba(255,255,255,.85);
+  }
+  .section-navy {
+    background: linear-gradient(135deg, var(--church-navy) 0%, #162040 100%);
+    color: rgba(255,255,255,.85);
+  }
+  .section-cream {
+    background: var(--church-cream);
+    color: var(--church-text);
+  }
+  .section-warm {
+    background: linear-gradient(180deg, var(--church-cream) 0%, var(--church-cream-deep) 100%);
+    color: var(--church-text);
+  }
+  .section-gold-soft {
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+    color: var(--church-text);
+  }
+  .section-purple-soft {
+    background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+    color: var(--church-text);
+  }
+  .section-green {
+    background: linear-gradient(135deg, var(--church-green) 0%, #1A6B41 100%);
+    color: rgba(255,255,255,.88);
+  }
+  .section-green-soft {
+    background: linear-gradient(135deg, var(--church-green-bg) 0%, var(--church-green-soft) 100%);
+    color: var(--church-text);
+  }
+  .section-red-soft {
+    background: linear-gradient(135deg, var(--church-red-bg) 0%, var(--church-red-soft) 100%);
+    color: var(--church-text);
   }
 
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  /* Badges verts et rouges */
+  .badge-green {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
+    background: var(--church-green-soft);
+    color: var(--church-green);
+    border: 1px solid rgba(26,94,58,0.20);
+  }
+  .badge-red {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
+    background: var(--church-red-soft);
+    color: var(--church-red-mid);
+    border: 1px solid rgba(185,28,28,0.20);
+  }
+
+  /* Bouton vert */
+  .btn-green {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
+    background: linear-gradient(135deg, var(--church-green), var(--church-green-mid));
+    box-shadow: 0 4px 14px rgba(26,94,58,.30);
+  }
+  .btn-green:hover {
+    background: linear-gradient(135deg, var(--church-green-mid), var(--church-green-light));
+    transform: translateY(-1px);
+  }
+
+  /* Carte Espoir (vert doux) */
+  .card-green {
+    background: var(--church-green-bg);
+    border: 1px solid rgba(26,94,58,.18);
+    border-radius: 1rem;
+    transition: box-shadow .25s ease;
+  }
+  .card-green:hover { box-shadow: 0 4px 16px rgba(26,94,58,.12); }
+
+  /* Carte Sang / Urgence (rouge doux) */
+  .card-red {
+    background: var(--church-red-bg);
+    border: 1px solid rgba(185,28,28,.18);
+    border-radius: 1rem;
+  }
+
+  /* ---- TEXTE ---- */
+  .text-gold { color: var(--church-gold); }
+  .text-gold-light { color: var(--church-gold-light); }
+  .text-church-green { color: var(--church-green); }
+  .text-church-red   { color: var(--church-red-mid); }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, var(--church-gold) 0%, var(--church-gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-divine {
+    background: linear-gradient(135deg, #C9973A 0%, #F0C060 50%, #FBBF24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-green {
+    background: linear-gradient(135deg, var(--church-green) 0%, var(--church-green-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-xl;
-    box-shadow: var(--shadow-md);
-    background-color: var(--color-surface);
+  /* ---- BADGES ---- */
+  .badge-gold {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    background: linear-gradient(135deg, rgba(201,151,58,.15) 0%, rgba(240,192,96,.10) 100%);
+    color: var(--church-gold);
+    border: 1px solid rgba(201,151,58,.30);
+  }
+  .badge-blue {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    background: rgba(30,58,138,.08);
+    color: var(--church-blue);
+    border: 1px solid rgba(30,58,138,.20);
+  }
+  .badge-white {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    background: rgba(255,255,255,.12);
+    color: rgba(255,255,255,.90);
+    border: 1px solid rgba(255,255,255,.20);
   }
 
-  .btn-primary {
-    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white;
-    background-color: var(--color-primary);
+  /* Ancienne compat */
+  .badge-primary { @apply badge-blue; }
+
+  /* ---- VERSET / CITATION ---- */
+  .verse-card {
+    border-left: 3px solid var(--church-gold);
+    background: linear-gradient(135deg, rgba(201,151,58,.06) 0%, rgba(201,151,58,.03) 100%);
+    @apply p-5 rounded-r-xl;
+  }
+  .verse-text {
+    font-family: var(--font-display);
+    @apply italic text-lg leading-relaxed;
   }
 
-  .btn-primary:hover {
-    background-color: var(--color-primary-hover);
-  }
-
-  .btn-secondary {
-    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-white;
-    background-color: var(--color-secondary);
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--color-secondary-hover);
+  /* ---- SEPARATEUR OR ---- */
+  .divider-gold {
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--church-gold) 40%, var(--church-gold-light) 60%, transparent 100%);
+    @apply my-6 mx-auto w-24;
   }
 }
 
+/* ================================================================
+   ANIMATIONS
+================================================================ */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-.animate-fade-in {
-  animation: fade-in 0.8s ease-out forwards;
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
 @keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+  0%   { transform: translate(0px,0px) scale(1); }
+  33%  { transform: translate(30px,-50px) scale(1.1); }
+  66%  { transform: translate(-20px,20px) scale(.9); }
+  100% { transform: translate(0px,0px) scale(1); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .65; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
-.animate-blob {
-  animation: blob 7s infinite;
+.animate-fade-in   { animation: fade-in  .7s ease-out both; }
+.animate-slide-up  { animation: slide-up .8s ease-out both; }
+.animate-scale-in  { animation: scale-in .6s ease-out both; }
+.animate-blob      { animation: blob 7s infinite; }
+.animate-pulse-soft{ animation: pulse-soft 2.5s ease-in-out infinite; }
+
+/* ================================================================
+   IMAGE UTILITAIRES
+================================================================ */
+.img-cover {
+  @apply w-full h-full object-cover;
 }
+.img-section {
+  @apply absolute inset-0 w-full h-full object-cover;
+}
+
+/* Overlay plein écran standard */
+.overlay-dark    { @apply absolute inset-0; background: rgba(0,0,0,.55); }
+.overlay-darker  { @apply absolute inset-0; background: rgba(0,0,0,.70); }
+.overlay-navy    { @apply absolute inset-0; background: rgba(7,10,20,.65); }
+
+/* ================================================================
+   SCROLLBAR
+================================================================ */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--church-cream-deep); }
+::-webkit-scrollbar-thumb  { background: var(--church-gold); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--church-gold-light); }
