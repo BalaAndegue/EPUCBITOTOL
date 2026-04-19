@@ -1,76 +1,136 @@
 'use client';
 
-import { Heart, CreditCard, Smartphone, Check } from 'lucide-react';
+import { Heart, CreditCard, Smartphone, CheckCircle, Flame, HandHeart, Building2, Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+const IMG = {
+  hero: 'https://images.unsplash.com/photo-1543269664-7eef42226a21?q=80&w=1400&auto=format&fit=crop',
+};
 
 const paymentMethods = [
   {
-    name: 'Mobile Money / Orange Money',
-    description: 'Le moyen le plus simple pour soutenir l\'œuvre depuis le Cameroun.',
+    id: 'mtn',
+    label: 'MTN Mobile Money',
     icon: Smartphone,
-    color: 'bg-orange-500',
-    details: [
-      { provider: 'MTN MoMo', number: '+237 6 70 00 00 00', name: 'EPUC Bitotol' },
-      { provider: 'Orange Money (OM)', number: '#150*...#', name: 'Code Marchand: 123456' }
+    color: '#FFCC00',
+    textColor: '#1C1917',
+    bg: 'bg-yellow-50',
+    badgeKey: 'recommended',
+    items: [
+      { label: 'Numéro', value: '+237 6 70 00 00 00' },
+      { label: 'Nom', value: 'ÉPUC Nkoabang' },
+      { label: 'Code USSD', value: '*126*1*numéro*montant#' },
     ]
   },
   {
-    name: 'Virement Bancaire',
-    description: 'Pour les dons plus importants ou depuis l\'étranger.',
-    icon: CreditCard,
-    color: 'bg-blue-600',
-    details: [
-      { provider: 'Banque', number: 'UBA Cameroun', name: '' },
-      { provider: 'RIB', number: '10033 05214 ...', name: '' }
+    id: 'orange',
+    label: 'Orange Money',
+    icon: Smartphone,
+    color: '#FF6600',
+    textColor: '#FFF',
+    bg: 'bg-orange-50',
+    badgeKey: null,
+    items: [
+      { label: 'Numéro', value: '+237 6 93 00 00 00' },
+      { label: 'Nom', value: 'ÉPUC Nkoabang' },
+      { label: 'Code USSD', value: '#150*numéro*montant#' },
     ]
-  }
+  },
+  {
+    id: 'bank',
+    label: 'Virement Bancaire',
+    icon: CreditCard,
+    color: '#1E3A8A',
+    textColor: '#FFF',
+    bg: 'bg-blue-50',
+    badgeKey: null,
+    items: [
+      { label: 'Banque', value: 'UBA Cameroun' },
+      { label: 'Compte', value: '00100333-06214 xxx' },
+      { label: 'Swift', value: 'UNAFCMCX' },
+    ]
+  },
+];
+
+const impactIcons = [
+  { icon: Flame,       color: 'text-orange-500',  bg: 'bg-orange-50',   tKey: 'impact_1' },
+  { icon: Building2,   color: 'text-blue-600',    bg: 'bg-blue-50',     tKey: 'impact_2' },
+  { icon: Users,       color: 'text-[#16803A]',   bg: 'bg-[#F0FDF4]',   tKey: 'impact_3' },
+  { icon: HandHeart,   color: 'text-[#B91C1C]',   bg: 'bg-[#FFF1F2]',   tKey: 'impact_4' },
 ];
 
 export default function Donate() {
-  return (
-    <div className="pt-20 bg-[var(--color-background)] min-h-screen">
+  const t = useTranslations('Donate');
 
-      {/* Hero */}
-      <section className="bg-[var(--color-primary)] text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Heart className="w-16 h-16 text-white/20 mx-auto mb-6 animate-pulse" fill="currentColor" />
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6">
-            Soutenir l'Œuvre de Dieu
-          </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            "Que chacun donne comme il l'a résolu en son cœur, sans tristesse ni contrainte; car Dieu aime celui qui donne avec joie." (2 Cor 9:7)
+  return (
+    <div className="pt-20 min-h-screen" style={{ background: 'var(--church-cream)' }}>
+
+      {/* HERO */}
+      <section className="relative h-64 sm:h-80 overflow-hidden">
+        <img src={IMG.hero} alt="" className="img-section" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(7,10,20,.95) 0%, rgba(7,10,20,.50) 60%, rgba(7,10,20,.15) 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-6 pb-8 text-center">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)' }}>
+            <Heart className="w-7 h-7 text-[#1C1917]" />
+          </div>
+          <h1 className="font-display text-3xl sm:text-5xl font-semibold text-white mb-3">{t('title')}</h1>
+          <p className="text-white/70 max-w-xl mx-auto text-sm sm:text-base italic">
+            &ldquo;{t('verse')}&rdquo;
+            <span className="block mt-1 not-italic text-white/50 text-xs">{t('verse_ref')}</span>
           </p>
         </div>
       </section>
 
-      {/* Methods */}
-      <section className="py-20 relative -mt-10">
+      {/* MÉTHODES DE PAIEMENT */}
+      <section className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {paymentMethods.map((method) => {
-              const Icon = method.icon;
+          <div className="text-center mb-10">
+            <span className="badge-gold mb-3 inline-flex">{t('badge')}</span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold" style={{ color: 'var(--church-text)' }}>
+              {t('methods_title')}
+            </h2>
+            <p className="text-sm mt-2" style={{ color: 'var(--church-text-soft)' }}>{t('methods_sub')}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {paymentMethods.map((m) => {
+              const Icon = m.icon;
               return (
-                <div key={method.name} className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 overflow-hidden relative">
-                  <div className={`absolute top-0 right-0 p-4 opacity-5 pointer-events-none`}>
-                    <Icon className="w-32 h-32" />
-                  </div>
-
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className={`w-12 h-12 ${method.color} rounded-xl flex items-center justify-center text-white shadow-lg`}>
-                      <Icon className="w-6 h-6" />
+                <div key={m.id} className="card-soft overflow-hidden">
+                  <div className="px-5 py-4 flex items-center justify-between"
+                    style={{ background: m.color }}>
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-5 h-5" style={{ color: m.textColor }} />
+                      <span className="font-bold text-sm" style={{ color: m.textColor }}>{m.label}</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-[var(--color-text-primary)]">{method.name}</h3>
+                    {m.badgeKey && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20" style={{ color: m.textColor }}>
+                        {t(m.badgeKey as any)}
+                      </span>
+                    )}
                   </div>
 
-                  <p className="text-[var(--color-text-secondary)] mb-8">{method.description}</p>
-
-                  <div className="space-y-4 bg-gray-50 rounded-xl p-6">
-                    {method.details.map((detail, idx) => (
-                      <div key={idx} className="flex flex-col border-b border-gray-200 last:border-0 pb-4 last:pb-0">
-                        <span className="text-xs uppercase font-bold text-gray-400 tracking-wider mb-1">{detail.provider}</span>
-                        <span className="text-lg font-mono font-bold text-[var(--color-text-primary)]">{detail.number}</span>
-                        {detail.name && <span className="text-sm text-[var(--color-primary)] font-medium">{detail.name}</span>}
+                  <div className="p-5 space-y-3">
+                    {m.items.map((item, idx) => (
+                      <div key={idx} className="flex items-start justify-between gap-2">
+                        <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--church-text-soft)' }}>
+                          {item.label}
+                        </span>
+                        <span className="text-sm font-mono font-bold text-right" style={{ color: 'var(--church-text)' }}>
+                          {item.value}
+                        </span>
                       </div>
                     ))}
+                  </div>
+
+                  <div className="px-5 pb-5">
+                    <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: 'var(--church-cream-deep)' }}>
+                      <CheckCircle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--church-green-mid)' }} />
+                      <p className="text-xs" style={{ color: 'var(--church-text-mid)' }}>
+                        {t('confirm_text')}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );
@@ -79,30 +139,47 @@ export default function Donate() {
         </div>
       </section>
 
-      {/* Impact */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-heading font-bold text-[var(--color-text-primary)] mb-12">À quoi servent vos dons ?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6">
-              <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4"><Check className="w-6 h-6" /></div>
-              <h3 className="font-bold text-lg mb-2">Évangélisation</h3>
-              <p className="text-gray-500 text-sm">Soutenir les campagnes et les missions.</p>
-            </div>
-            <div className="p-6">
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"><Check className="w-6 h-6" /></div>
-              <h3 className="font-bold text-lg mb-2">Entretien du Temple</h3>
-              <p className="text-gray-500 text-sm">Loyer, électricité, sonorisation.</p>
-            </div>
-            <div className="p-6">
-              <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4"><Check className="w-6 h-6" /></div>
-              <h3 className="font-bold text-lg mb-2">Social</h3>
-              <p className="text-gray-500 text-sm">Aider les veuves et orphelins de Bitotol.</p>
-            </div>
-          </div>
+      {/* VERSET */}
+      <section className="py-10" style={{ background: 'var(--church-cream-deep)' }}>
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <div className="divider-gold" />
+          <blockquote className="font-display italic text-lg sm:text-xl my-6 leading-relaxed"
+            style={{ color: 'var(--church-text-mid)' }}>
+            &ldquo;{t('verse')}&rdquo;
+          </blockquote>
+          <cite className="not-italic text-sm font-semibold" style={{ color: 'var(--church-gold)' }}>{t('verse_ref')}</cite>
+          <div className="divider-gold mt-6" />
         </div>
       </section>
 
+      {/* IMPACT */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="badge-gold mb-3 inline-flex">{t('impact_badge')}</span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold" style={{ color: 'var(--church-text)' }}>
+              {t('impact_title')}
+            </h2>
+            <p className="text-sm mt-2" style={{ color: 'var(--church-text-soft)' }}>{t('impact_sub')}</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {impactIcons.map(({ icon: Icon, color, bg, tKey }) => (
+              <div key={tKey} className="card-soft p-5 text-center">
+                <div className={`w-12 h-12 ${bg} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+                  <Icon className={`w-6 h-6 ${color}`} />
+                </div>
+                <h3 className="font-semibold text-sm mb-2" style={{ color: 'var(--church-text)' }}>
+                  {t(`${tKey}_title` as any)}
+                </h3>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--church-text-soft)' }}>
+                  {t(`${tKey}_desc` as any)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
