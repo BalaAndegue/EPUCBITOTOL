@@ -1,74 +1,63 @@
 'use client';
 
 import { Users, Heart, Coffee, Baby, Shield } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-const groups = [
-  {
-    title: 'Hommes de Valeur',
-    description: 'Les pères et jeunes hommes se réunissent pour s\'encourager à être des leaders spirituels dans leurs familles et au travail.',
-    icon: Shield,
-    color: 'text-blue-600',
-    bg: 'bg-blue-50'
-  },
-  {
-    title: 'Femmes de Destinée',
-    description: 'Un espace de soutien, de prière et d\'entraide pratique pour les femmes de Bitotol.',
-    icon: Heart,
-    color: 'text-pink-600',
-    bg: 'bg-pink-50'
-  },
-  {
-    title: 'École du Dimanche',
-    description: 'Vos enfants (3-12 ans) reçoivent un enseignement biblique adapté pendant le culte, dans un cadre sécurisé.',
-    icon: Baby,
-    color: 'text-yellow-600',
-    bg: 'bg-yellow-50'
-  },
-  {
-    title: 'Accueil & Intégration',
-    description: 'Pour les nouveaux venus : un café fraternel après le culte pour mieux vous connaître.',
-    icon: Coffee,
-    color: 'text-green-600',
-    bg: 'bg-green-50'
-  }
+const IMG = {
+  hero:      '/church-3.webp',
+  worship:   'https://images.unsplash.com/photo-1566288623394-377af472d81b?q=80&w=1400&auto=format&fit=crop',
+  community: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1400&auto=format&fit=crop',
+};
+
+const groupIcons = [Shield, Heart, Baby, Coffee];
+const groupColors = [
+  { c: 'text-blue-400',    bg: 'bg-blue-950/50',   border: 'border-blue-800/30'   },
+  { c: 'text-pink-400',    bg: 'bg-pink-950/50',   border: 'border-pink-800/30'   },
+  { c: 'text-yellow-400',  bg: 'bg-yellow-950/50', border: 'border-yellow-800/30' },
+  { c: 'text-emerald-400', bg: 'bg-emerald-950/50',border: 'border-emerald-800/30'},
 ];
 
 export default function Community() {
-  return (
-    <div className="pt-20 bg-[var(--color-background)] min-h-screen">
+  const t = useTranslations('Community');
 
-      {/* Header */}
-      <section className="bg-white py-16 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-[var(--color-exercise-bg)] rounded-xl mb-6">
-            <Users className="w-8 h-8 text-[var(--color-exercise)]" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-[var(--color-text-primary)] mb-4">
-            Vie Communautaire
-          </h1>
-          <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-            À ÉPUC Bitotol, nous sommes plus qu'une foule le dimanche : nous sommes une famille qui partage la vie.
-          </p>
+  return (
+    <div className="pt-20 min-h-screen" style={{ background: 'var(--church-cream)' }}>
+
+      {/* HERO */}
+      <section className="relative h-64 sm:h-80 overflow-hidden">
+        <img src={IMG.hero} alt="" className="img-section"
+          onError={(e) => { (e.target as HTMLImageElement).src = IMG.worship; }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(7,10,20,.88) 0%, rgba(7,10,20,.40) 70%, transparent 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-5xl mx-auto">
+          <span className="badge-gold mb-3 inline-flex">{t('badge')}</span>
+          <h1 className="font-display text-4xl sm:text-5xl font-semibold text-white">{t('title')}</h1>
+          <p className="text-white/65 mt-2 max-w-lg text-sm sm:text-base">{t('subtitle')}</p>
         </div>
       </section>
 
-      {/* Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {groups.map((group) => {
-              const Icon = group.icon;
+      {/* GROUPES — fond sombre image */}
+      <section className="relative py-16 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={IMG.worship} alt="" className="img-section"
+            onError={(e) => { (e.target as HTMLImageElement).src = IMG.community; }} />
+          <div className="absolute inset-0" style={{ background: 'rgba(7,10,20,.88)' }} />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {(['g1', 'g2', 'g3', 'g4'] as const).map((k, i) => {
+              const Icon = groupIcons[i];
+              const col = groupColors[i];
               return (
-                <div key={group.title} className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
-                  <div className={`w-14 h-14 ${group.bg} rounded-2xl flex items-center justify-center mb-6`}>
-                    <Icon className={`w-7 h-7 ${group.color}`} />
+                <div key={k} className={`card-glass border ${col.border} p-6 animate-fade-in`}
+                  style={{ animationDelay: `${i * .12}s` }}>
+                  <div className={`w-12 h-12 ${col.bg} rounded-xl flex items-center justify-center mb-5`}>
+                    <Icon className={`w-6 h-6 ${col.c}`} />
                   </div>
-                  <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-3">{group.title}</h3>
-                  <p className="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-6">
-                    {group.description}
-                  </p>
-                  <button className="text-[var(--color-primary)] font-semibold text-sm hover:underline">
-                    Rejoindre ce groupe
+                  <h3 className="font-bold text-white text-lg mb-2">{t(`${k}_title` as any)}</h3>
+                  <p className="text-white/65 text-sm leading-relaxed mb-5">{t(`${k}_desc` as any)}</p>
+                  <button className={`text-xs font-semibold ${col.c} hover:underline transition-colors`}>
+                    {t('join_btn')}
                   </button>
                 </div>
               );
@@ -77,16 +66,24 @@ export default function Community() {
         </div>
       </section>
 
-      {/* Quote / Highlight */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <blockquote className="text-2xl md:text-3xl font-heading italic text-gray-700 mb-8">
-            "Voici, oh! qu'il est agréable, qu'il est doux pour des frères de demeurer ensemble!"
+      {/* VERSET */}
+      <section className="py-16 sm:py-24 dark-bg" style={{ background: 'var(--church-navy)' }}>
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <div className="divider-gold" />
+          <blockquote className="font-display italic text-2xl sm:text-3xl text-white/90 leading-relaxed my-8">
+            {t('verse')}
           </blockquote>
-          <cite className="text-[var(--color-primary)] font-bold not-italic">- Psaume 133:1</cite>
+          <cite className="not-italic text-[var(--church-gold)] font-semibold text-sm">{t('verse_ref')}</cite>
+          <div className="divider-gold mt-8" />
         </div>
       </section>
 
+      {/* IMAGE communauté */}
+      <section className="relative h-64 sm:h-80 overflow-hidden">
+        <img src={IMG.community} alt="Communauté ÉPUC" className="img-section"
+          onError={(e) => { (e.target as HTMLImageElement).src = IMG.worship; }} />
+        <div className="absolute inset-0 bg-[var(--church-navy)]/25" />
+      </section>
     </div>
   );
 }
