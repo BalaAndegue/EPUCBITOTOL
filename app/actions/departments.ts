@@ -30,7 +30,7 @@ export async function createDepartment(data: { name: string; description: string
         return { success: true, data: newDepartment };
     } catch (error) {
         console.error('Failed to create department:', error);
-        return { success: false, error: 'Failed to create department' };
+        return { success: false, error: 'Failed to create department: ' + (error instanceof Error ? error.message : String(error)) };
     }
 }
 

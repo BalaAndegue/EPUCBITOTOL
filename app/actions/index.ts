@@ -162,7 +162,7 @@ export async function createAnnouncement(data: { title: string; content: string;
         return { success: true, data: newAnnouncement };
     } catch (error) {
         console.error('Failed to create announcement:', error);
-        return { success: false, error: 'Failed to create announcement' };
+        return { success: false, error: 'Failed to create announcement: ' + (error instanceof Error ? error.message : String(error)) };
     }
 }
 
@@ -189,6 +189,6 @@ export async function createEvent(data: { title: string; description: string; da
         return { success: true, data: newEvent };
     } catch (error) {
         console.error('Failed to create event:', error);
-        return { success: false, error: 'Failed to create event' };
+        return { success: false, error: 'Failed to create event: ' + (error instanceof Error ? error.message : String(error)) };
     }
 }
