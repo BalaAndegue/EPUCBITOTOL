@@ -8,6 +8,7 @@
         "contact": "Contact",
         "donate": "Donate",
         "bibles": "Bibles",
+        "announcements": "Announcements",
         "donate_btn": "🙏 Donate"
     },
     "Home": {
@@ -206,10 +207,10 @@
         "hours_l2": "Wednesday: 6:00 – 7:30 PM",
         "hours_l3": "Friday: 6:30 – 8:00 PM",
         "phone_title": "Phone",
-        "phone_l1": "Secretariat: +237 6 99 00 00 00",
-        "phone_l2": "Pastor: +237 6 77 00 00 00",
+        "phone_l1": "Call: +237 6 78 34 60 11",
+        "phone_l2": "WhatsApp: +237 6 78 34 60 11",
         "email_title": "Email",
-        "email_l1": "contact@epuc-nkoabang.cm",
+        "email_l1": "descieux758@gmail.com",
         "email_l2": "prayer@epuc-nkoabang.cm",
         "how_title": "How to Get There?",
         "how_l1": "Take the bus from Biteng towards Nkoabang",

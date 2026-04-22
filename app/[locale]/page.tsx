@@ -358,16 +358,23 @@ export default function Home() {
                 <p className="text-white/30 text-sm mt-1">{t('no_events_sub')}</p>
               </div>
             ) : events.map((ev, i) => (
-              <div key={ev.id} className="card-glass p-6 animate-fade-in" style={{ animationDelay: `${i * .1}s` }}>
-                <div className="flex items-center gap-2 text-[#C9973A] font-semibold text-sm mb-3">
-                  <Calendar className="w-4 h-4" />
-                  {new Date(ev.date).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </div>
-                <h3 className="font-bold text-white text-lg mb-2">{ev.title}</h3>
-                <p className="text-white/60 text-sm mb-4 line-clamp-2">{ev.description}</p>
-                <div className="flex gap-4 text-xs text-white/40">
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{ev.time}</span>
-                  {ev.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{ev.location}</span>}
+              <div key={ev.id} className="card-glass overflow-hidden animate-fade-in flex flex-col" style={{ animationDelay: `${i * .1}s` }}>
+                {ev.coverImage && (
+                  <div className="w-full h-48 overflow-hidden flex-shrink-0">
+                    <img src={ev.coverImage} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" alt={ev.title} />
+                  </div>
+                )}
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-center gap-2 text-[#C9973A] font-semibold text-sm mb-3">
+                    <Calendar className="w-4 h-4" />
+                    {new Date(ev.date).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </div>
+                  <h3 className="font-bold text-white text-lg mb-2">{ev.title}</h3>
+                  <p className="text-white/60 text-sm mb-4 line-clamp-2">{ev.description}</p>
+                  <div className="mt-auto flex gap-4 text-xs text-white/40">
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{ev.time}</span>
+                    {ev.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{ev.location}</span>}
+                  </div>
                 </div>
               </div>
             ))}

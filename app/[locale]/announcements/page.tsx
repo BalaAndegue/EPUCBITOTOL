@@ -109,6 +109,11 @@ export default function Announcements() {
                     <p className="text-sm leading-relaxed" style={{ color: 'var(--church-text-mid)' }}>
                       {item.content}
                     </p>
+                    {item.coverImage && (
+                      <div className="mt-4 w-full rounded-xl overflow-hidden">
+                        <img src={item.coverImage} alt={item.title} className="w-full max-h-[300px] object-cover" />
+                      </div>
+                    )}
                   </div>
                 </article>
               ))}

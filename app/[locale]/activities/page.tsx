@@ -1,9 +1,11 @@
 'use client';
 
-import { Calendar, Music, BookOpen, Users, Clock, ArrowRight, Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Calendar, Music, BookOpen, Users, Clock, ArrowRight, Star, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
+import { getDepartments } from '@/app/actions/departments';
 
 const IMG = {
   hero:   '/church-2.webp',
@@ -26,10 +28,16 @@ export default function Activities() {
     { dayKey: 'a3_day', titleKey: 'a3_title', timeKey: 'a3_time', descKey: 'a3_desc' },
   ];
 
-  const groups = [
-    { titleKey: 'g1_title', descKey: 'g1_desc', meetingKey: 'g1_meeting', img: IMG.youth },
-    { titleKey: 'g2_title', descKey: 'g2_desc', meetingKey: 'g2_meeting', img: IMG.choir },
-  ];
+  const [departments, setDepartments] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getDepartments();
+      if (res.success && res.data) {
+        setDepartments(res.data);
+      }
+    })();
+  }, []);
 
   return (
     <div className="pt-20 min-h-screen" style={{ background: 'var(--church-cream)' }}>
@@ -86,18 +94,25 @@ export default function Activities() {
             {t('groups_title')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {groups.map((g) => (
-              <div key={g.titleKey} className="relative overflow-hidden rounded-2xl aspect-video group">
-                <img src={g.img} alt={t(g.titleKey as any)} className="img-section transition-transform duration-700 group-hover:scale-105"
+            {departments.length === 0 ? (
+              <div className="col-span-2 text-center text-white/50 py-10">
+                <Users className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                <p>Aucun département pour le moment.</p>
+              </div>
+            ) : departments.map((d) => (
+              <div key={d.id} className="relative overflow-hidden rounded-2xl aspect-video group">
+                <img src={d.coverImage || IMG.youth} alt={d.name} className="img-section transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => { (e.target as HTMLImageElement).src = IMG.bible; }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <div className="flex items-center gap-2 text-[var(--church-gold)] text-xs font-semibold mb-2">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {t(g.meetingKey as any)}
-                  </div>
-                  <h3 className="font-bold text-lg mb-1">{t(g.titleKey as any)}</h3>
-                  <p className="text-white/70 text-sm max-w-sm leading-relaxed">{t(g.descKey as any)}</p>
+                <div className="absolute bottom-0 left-0 p-6 text-white w-full">
+                  {d.leader && (
+                    <div className="flex items-center gap-2 text-[var(--church-gold)] text-xs font-semibold mb-2">
+                      <UserCircle className="w-4 h-4" />
+                      Responsable : {d.leader}
+                    </div>
+                  )}
+                  <h3 className="font-bold text-lg mb-1">{d.name}</h3>
+                  <p className="text-white/70 text-sm leading-relaxed max-w-sm line-clamp-2">{d.description}</p>
                 </div>
               </div>
             ))}

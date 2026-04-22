@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Heart, Users, Calendar, MessageSquare, Phone, Home, Book, ChevronRight, Flame } from 'lucide-react';
+import { Menu, X, Heart, Users, Calendar, MessageSquare, Phone, Home, Book, ChevronRight, Flame, Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function Header({ locale }: { locale: string }) {
@@ -96,6 +96,17 @@ export default function Header({ locale }: { locale: string }) {
                   </button>
                 ))}
               </div>
+              {/* Bouton Annonces */}
+              <Link href={link('/announcements')}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+                style={{
+                  background: active('/announcements') ? 'linear-gradient(135deg,#C9973A,#E8B84B)' : 'rgba(201,151,58,0.15)',
+                  color: active('/announcements') ? '#1C1917' : '#E8B84B',
+                  border: '1px solid rgba(201,151,58,0.4)',
+                }}>
+                <Bell className="w-4 h-4" />
+                {t('announcements')}
+              </Link>
               <Link href={link('/donate')} className="btn-gold text-sm px-4 py-2 rounded-xl">
                 {t('donate_btn')}
               </Link>
@@ -179,6 +190,17 @@ export default function Header({ locale }: { locale: string }) {
               </button>
             ))}
           </div>
+          {/* Bouton Annonces mobile */}
+          <Link href={link('/announcements')} onClick={() => setOpen(false)}
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all"
+            style={{
+              background: 'rgba(201,151,58,0.15)',
+              color: '#E8B84B',
+              border: '1px solid rgba(201,151,58,0.35)',
+            }}>
+            <Bell className="w-4 h-4" />
+            {t('announcements' as any) || 'Annonces'}
+          </Link>
           <Link href={link('/donate')} onClick={() => setOpen(false)}
             className="block w-full text-center py-3 rounded-xl font-bold text-sm"
             style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)', color: '#1C1917' }}>

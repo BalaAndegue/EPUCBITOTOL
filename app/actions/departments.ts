@@ -15,10 +15,15 @@ export async function getDepartments() {
     }
 }
 
-export async function createDepartment(data: { name: string; description: string; leaderName?: string }) {
+export async function createDepartment(data: { name: string; description: string; leaderName?: string; coverImage?: string | null }) {
     try {
         const newDepartment = await prisma.department.create({
-            data,
+            data: {
+                name: data.name,
+                description: data.description,
+                leader: data.leaderName,
+                coverImage: data.coverImage ?? null,
+            },
         });
 
         revalidatePath('/');
@@ -28,3 +33,4 @@ export async function createDepartment(data: { name: string; description: string
         return { success: false, error: 'Failed to create department' };
     }
 }
+

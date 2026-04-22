@@ -4,11 +4,13 @@ import { MapPin, Phone, Mail, Send, Clock, MessageCircle, Bus, CheckCircle } fro
 import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 const IMG = {
-  hero:  '/church-1.webp',
-  bg:    'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1400&auto=format&fit=crop',
-  bible: 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1400&auto=format&fit=crop',
+  hero:     '/church-interior.jpg',
+  hero2:    '/church-1.webp',
+  bg:       'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1400&auto=format&fit=crop',
+  bible:    'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1400&auto=format&fit=crop',
 };
 
 export default function Contact() {
@@ -16,11 +18,23 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 6000);
-    setForm({ name: '', email: '', message: '' });
+    const toastId = toast.loading('Envoi en cours...');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      toast.success('Message envoyé ! Nous vous répondrons bientôt.', { id: toastId });
+      setSent(true);
+      setTimeout(() => setSent(false), 6000);
+      setForm({ name: '', email: '', message: '' });
+    } catch {
+      toast.error('Erreur lors de l\'envoi. Veuillez réessayer.', { id: toastId });
+    }
   };
 
   const infoCards = [
@@ -46,9 +60,9 @@ export default function Contact() {
     <div className="pt-20 min-h-screen" style={{ background: 'var(--church-cream)' }}>
 
       {/* HERO */}
-      <section className="relative h-56 sm:h-72 overflow-hidden">
-        <img src={IMG.hero} alt="" className="img-section"
-          onError={(e) => { (e.target as HTMLImageElement).src = IMG.bg; }} />
+      <section className="relative h-56 sm:h-80 overflow-hidden">
+        <img src={IMG.hero} alt="Intérieur de l'église ÉPUC Nkoabang" className="img-section object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).src = IMG.hero2; }} />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(7,10,20,.90) 0%, rgba(7,10,20,.45) 70%, transparent 100%)' }} />
         <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-5xl mx-auto">
           <span className="badge-gold mb-3 inline-flex">{t('badge')}</span>
@@ -117,7 +131,7 @@ export default function Contact() {
                   <div className="flex-1">
                     <h3 className="font-semibold text-white text-sm mb-1">{t('wa_title')}</h3>
                     <p className="text-white/60 text-xs mb-3 leading-relaxed">{t('wa_desc')}</p>
-                    <Link href="https://wa.me/+237699000000" target="_blank"
+                    <Link href={process.env.NEXT_PUBLIC_WHATSAPP_GROUP_LINK || "#"} target="_blank"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white text-xs font-semibold rounded-lg hover:bg-[#22c55e] transition-colors">
                       <MessageCircle className="w-3.5 h-3.5" />
                       {t('wa_btn')}

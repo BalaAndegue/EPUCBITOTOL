@@ -143,13 +143,14 @@ export async function getFloatingButtonStats() {
 /**
  * Create a new announcement (Admin)
  */
-export async function createAnnouncement(data: { title: string; content: string; isUrgent: boolean }) {
+export async function createAnnouncement(data: { title: string; content: string; isUrgent: boolean; coverImage?: string | null }) {
     try {
         const newAnnouncement = await prisma.announcement.create({
             data: {
                 title: data.title,
                 content: data.content,
                 isUrgent: data.isUrgent,
+                coverImage: data.coverImage ?? null,
             },
         });
 
@@ -168,7 +169,7 @@ export async function createAnnouncement(data: { title: string; content: string;
 /**
  * Create a new event (Admin)
  */
-export async function createEvent(data: { title: string; description: string; date: Date; time: string; location: string }) {
+export async function createEvent(data: { title: string; description: string; date: Date; time: string; location: string; coverImage?: string | null }) {
     try {
         const newEvent = await prisma.event.create({
             data: {
@@ -177,6 +178,7 @@ export async function createEvent(data: { title: string; description: string; da
                 date: data.date,
                 time: data.time,
                 location: data.location,
+                coverImage: data.coverImage ?? null,
             },
         });
 

@@ -38,13 +38,15 @@ export default async function Footer() {
             <p className="text-white/70 text-sm leading-relaxed">{t('description')}</p>
             <div className="flex gap-2.5">
               {[
-                { icon: Facebook,     href: '#' },
-                { icon: Instagram,    href: '#' },
-                { icon: Youtube,      href: '#' },
-                { icon: MessageCircle,href: 'https://wa.me/+237699000000' },
-              ].map(({ icon: Icon, href }) => (
-                <Link key={href} href={href} target={href.startsWith('http') ? '_blank' : undefined}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-white/35 hover:text-white hover:bg-[rgba(201,151,58,0.20)] bg-white/[0.06] transition-all duration-200">
+                { icon: Facebook,     href: '#',                          label: 'Facebook' },
+                { icon: Instagram,    href: '#',                          label: 'Instagram' },
+                { icon: Youtube,      href: '#',                          label: 'YouTube' },
+                { icon: MessageCircle,href: 'https://wa.me/237678346011',label: 'WhatsApp' },
+              ].map(({ icon: Icon, href, label }) => (
+                <Link key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined}
+                  aria-label={label}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{ background: 'rgba(201,151,58,0.22)', color: '#E8B84B', border: '1px solid rgba(201,151,58,0.35)' }}>
                   <Icon className="w-4 h-4" />
                 </Link>
               ))}
@@ -104,11 +106,11 @@ export default async function Footer() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[var(--church-gold)] flex-shrink-0" />
-                  <p className="text-white/70">+237 6 99 00 00 00</p>
+                  <p className="text-white/70">+237 6 78 34 60 11</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[var(--church-gold)] flex-shrink-0" />
-                  <p className="text-white/70">contact@epuc-nkoabang.cm</p>
+                  <p className="text-white/70">descieux758@gmail.com</p>
                 </div>
               </div>
             </div>
