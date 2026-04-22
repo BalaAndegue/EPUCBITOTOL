@@ -46,26 +46,29 @@ export default function Announcements() {
 
       {/* CONTENU */}
       <section className="py-10 sm:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
           <Link href={`/${locale}`}
-            className="inline-flex items-center gap-2 text-sm font-medium mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium mb-8 transition-colors hover:text-[var(--church-gold)]"
             style={{ color: 'var(--church-text-soft)' }}>
             <ArrowLeft className="w-4 h-4" /> {t('back')}
           </Link>
 
           {loading ? (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1,2,3].map(i => (
-                <div key={i} className="card-soft p-6 animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-3" />
-                  <div className="h-3 bg-gray-100 rounded w-full mb-2" />
-                  <div className="h-3 bg-gray-100 rounded w-2/3" />
+                <div key={i} className="card-soft h-[450px] animate-pulse">
+                  <div className="h-56 bg-gray-200 w-full" />
+                  <div className="p-6 space-y-4">
+                    <div className="h-6 bg-gray-200 rounded w-3/4" />
+                    <div className="h-4 bg-gray-100 rounded w-full" />
+                    <div className="h-4 bg-gray-100 rounded w-2/3" />
+                  </div>
                 </div>
               ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="card-soft p-12 text-center">
+            <div className="card-soft p-12 text-center max-w-2xl mx-auto">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
                 style={{ background: 'var(--church-cream-deep)' }}>
                 <Bell className="w-7 h-7" style={{ color: 'var(--church-text-soft)' }} />
@@ -78,44 +81,51 @@ export default function Announcements() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {items.map((item) => (
-                <article key={item.id} className="card-soft p-5 sm:p-6 flex flex-col gap-4 group hover:border-[var(--church-gold)] transition-colors h-full">
-                  <div className="flex items-start justify-between gap-3 w-full">
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: item.isUrgent ? 'var(--church-red-bg)' : 'var(--church-green-bg)' }}>
-                      {item.isUrgent
-                        ? <AlertTriangle className="w-5 h-5" style={{ color: 'var(--church-red-mid)' }} />
-                        : <Info className="w-5 h-5" style={{ color: 'var(--church-green-mid)' }} />
-                      }
+                <article key={item.id} className="card-soft overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 h-full border-b-4 hover:border-b-[var(--church-gold)]">
+                  {/* Image de Couverture en haut */}
+                  {item.coverImage && (
+                    <div className="relative h-60 sm:h-72 w-full overflow-hidden">
+                      <img 
+                        src={item.coverImage} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60" />
+                      {item.isUrgent && (
+                        <div className="absolute top-4 right-4">
+                          <span className="badge-red px-3 py-1 shadow-lg backdrop-blur-sm bg-red-600/90 text-white border-none">
+                            {t('urgent')}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    {item.isUrgent && (
-                      <span className="badge-red flex-shrink-0 text-[10px] mt-1">
-                        {t('urgent')}
-                      </span>
-                    )}
-                  </div>
+                  )}
 
-                  <div className="flex flex-col flex-1">
-                    <h3 className="font-semibold text-base leading-snug mb-1" style={{ color: 'var(--church-text)' }}>
+                  <div className="p-6 sm:p-8 flex flex-col flex-1 bg-white">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${item.isUrgent ? 'bg-red-50' : 'bg-green-50'}`}>
+                        {item.isUrgent
+                          ? <AlertTriangle className="w-5 h-5 text-red-600" />
+                          : <Info className="w-5 h-5 text-green-600" />
+                        }
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" style={{ color: 'var(--church-text-soft)' }} />
+                        <span className="text-xs font-medium" style={{ color: 'var(--church-text-soft)' }}>
+                          {new Date(item.createdAt).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3 className="font-bold text-xl sm:text-2xl leading-tight mb-4 text-gray-900 group-hover:text-[var(--church-gold)] transition-colors">
                       {item.title}
                     </h3>
-                    <div className="flex items-center gap-1.5 mb-3">
-                      <Clock className="w-3.5 h-3.5" style={{ color: 'var(--church-text-soft)' }} />
-                      <span className="text-xs" style={{ color: 'var(--church-text-soft)' }}>
-                        {new Date(item.createdAt).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </span>
-                    </div>
 
-                    <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--church-text-mid)' }}>
+                    <p className="text-sm sm:text-base leading-relaxed text-gray-600 flex-1 line-clamp-5">
                       {item.content}
                     </p>
-
-                    {item.coverImage && (
-                      <div className="mt-auto w-full rounded-xl overflow-hidden">
-                        <img src={item.coverImage} alt={item.title} className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105" />
-                      </div>
-                    )}
                   </div>
                 </article>
               ))}
