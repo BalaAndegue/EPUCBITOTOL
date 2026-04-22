@@ -78,40 +78,42 @@ export default function Announcements() {
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((item) => (
-                <article key={item.id} className="card-soft p-5 sm:p-6 flex gap-4 group hover:border-[var(--church-gold)] transition-colors">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: item.isUrgent ? 'var(--church-red-bg)' : 'var(--church-green-bg)' }}>
-                    {item.isUrgent
-                      ? <AlertTriangle className="w-5 h-5" style={{ color: 'var(--church-red-mid)' }} />
-                      : <Info className="w-5 h-5" style={{ color: 'var(--church-green-mid)' }} />
-                    }
+                <article key={item.id} className="card-soft p-5 sm:p-6 flex flex-col gap-4 group hover:border-[var(--church-gold)] transition-colors h-full">
+                  <div className="flex items-start justify-between gap-3 w-full">
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: item.isUrgent ? 'var(--church-red-bg)' : 'var(--church-green-bg)' }}>
+                      {item.isUrgent
+                        ? <AlertTriangle className="w-5 h-5" style={{ color: 'var(--church-red-mid)' }} />
+                        : <Info className="w-5 h-5" style={{ color: 'var(--church-green-mid)' }} />
+                      }
+                    </div>
+                    {item.isUrgent && (
+                      <span className="badge-red flex-shrink-0 text-[10px] mt-1">
+                        {t('urgent')}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2 mb-1">
-                      <h3 className="font-semibold text-base leading-snug" style={{ color: 'var(--church-text)' }}>
-                        {item.title}
-                      </h3>
-                      {item.isUrgent && (
-                        <span className="badge-red flex-shrink-0 text-[10px]">
-                          {t('urgent')}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1.5 mb-2">
+                  <div className="flex flex-col flex-1">
+                    <h3 className="font-semibold text-base leading-snug mb-1" style={{ color: 'var(--church-text)' }}>
+                      {item.title}
+                    </h3>
+                    <div className="flex items-center gap-1.5 mb-3">
                       <Clock className="w-3.5 h-3.5" style={{ color: 'var(--church-text-soft)' }} />
                       <span className="text-xs" style={{ color: 'var(--church-text-soft)' }}>
                         {new Date(item.createdAt).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed" style={{ color: 'var(--church-text-mid)' }}>
+
+                    <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--church-text-mid)' }}>
                       {item.content}
                     </p>
+
                     {item.coverImage && (
-                      <div className="mt-4 w-full rounded-xl overflow-hidden">
-                        <img src={item.coverImage} alt={item.title} className="w-full max-h-[300px] object-cover" />
+                      <div className="mt-auto w-full rounded-xl overflow-hidden">
+                        <img src={item.coverImage} alt={item.title} className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     )}
                   </div>
