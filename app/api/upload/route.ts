@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+
 import { cookies } from 'next/headers';
 import { verifySession } from '@/app/actions/auth';
 
@@ -36,20 +35,13 @@ export async function POST(req: NextRequest) {
     }
 
     const bytes = await file.arrayBuffer();
-    const buffer = new Uint8Array(bytes);
+    const buffer = Buffer.from(bytes);
 
-    // Generate unique filename
-    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-
-    // Ensure directory exists
-    await mkdir(uploadDir, { recursive: true });
-
-    const filePath = join(uploadDir, uniqueName);
-    await writeFile(filePath, buffer);
-
-    const publicUrl = `/uploads/${uniqueName}`;
+    // Sur Vercel, le système de fichiers est en lecture seule ("Read-Only").
+    // Au lieu d'écrire sur le disque, on convertit l'image en Base64 Data URI
+    // pour la stocker directement dans la base de données.
+    const base64Data = buffer.toString('base64');
+    const publicUrl = `data:${file.type};base64,${base64Data}`;
     return NextResponse.json({ success: true, url: publicUrl });
   } catch (error) {
     console.error('Upload error:', error);
