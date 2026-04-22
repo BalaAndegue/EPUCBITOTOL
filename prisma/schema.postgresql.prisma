@@ -20,6 +20,7 @@ model Event {
   date        DateTime
   time        String
   location    String?
+  coverImage  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -40,6 +41,7 @@ model Announcement {
   title       String
   content     String
   isUrgent    Boolean  @default(false)
+  coverImage  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -49,6 +51,7 @@ model Department {
   name        String
   description String?
   leader      String?
+  coverImage  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

@@ -1,13 +1,16 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Schema PRODUCTION pour Vercel (PostgreSQL)
+// Utiliser avec : prisma generate --schema=prisma/schema.postgresql.prisma
+// Voir le README_DEPLOY.md pour les instructions complètes
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Pour Neon/Supabase avec connection pooler, décommenter :
+  // directUrl = env("DIRECT_URL")
 }
 
 model Event {
@@ -64,8 +67,8 @@ model Sermon {
   title       String
   preacher    String
   date        DateTime
-  description String?
   verses      String?
+  description String?
   videoUrl    String?
   audioUrl    String?
   createdAt   DateTime @default(now())
