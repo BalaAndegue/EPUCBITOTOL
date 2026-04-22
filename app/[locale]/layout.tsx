@@ -19,6 +19,8 @@ export const metadata = {
   },
 };
 
+import CookieBanner from '@/components/CookieBanner';
+
 export default async function LocaleLayout({
   children,
   params: { locale }
@@ -50,6 +52,7 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer />
+          <CookieBanner />
           <Toaster richColors position="top-center" />
           <Analytics />
         </NextIntlClientProvider>
