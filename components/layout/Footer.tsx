@@ -2,13 +2,17 @@ import Link from 'next/link';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, MessageCircle, Flame } from 'lucide-react';
 import NewsletterForm from '../NewsletterForm';
 import { getTranslations } from 'next-intl/server';
+import { getLocale } from 'next-intl/server';
 
 export default async function Footer() {
-  const t = await getTranslations('Footer');
+  const locale = await getLocale();
+  const t  = await getTranslations('Footer');
   const nt = await getTranslations('Navigation');
 
-  const quickLinks = ['home', 'about', 'activities', 'messages', 'community', 'contact', 'donate'] as const;
-  const hrefs = ['/', '/about', '/activities', '/messages', '/community', '/contact', '/donate'];
+  const loc = (path: string) => `/${locale}${path === '/' ? '' : path}`;
+
+  const quickLinks = ['home', 'about', 'activities', 'messages', 'community', 'network', 'contact', 'donate'] as const;
+  const hrefs      = ['/', '/about', '/activities', '/messages', '/community', '/network', '/contact', '/donate'];
 
   const schedule = [
     { name: t('s1_name'), time: t('s1_time') },
@@ -25,23 +29,25 @@ export default async function Footer() {
 
           {/* Logo & Description */}
           <div className="sm:col-span-2 lg:col-span-1 space-y-5">
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href={loc('/')} className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg,var(--church-gold),var(--church-gold-light))' }}>
                 <Flame className="w-5 h-5 text-[#1C1917]" />
               </div>
               <div>
                 <p className="font-heading font-bold text-white text-base leading-tight">ÉPUC NKOABANG</p>
-                <p className="text-[10px] tracking-widest uppercase" style={{ color: 'rgba(201,151,58,0.55)' }}>Église Pentecôtiste Unie</p>
+                <p className="text-[10px] tracking-widest uppercase" style={{ color: 'rgba(201,151,58,0.55)' }}>
+                  {t('logo_subtitle')}
+                </p>
               </div>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed">{t('description')}</p>
             <div className="flex gap-2.5">
               {[
-                { icon: Facebook,     href: '#',                          label: 'Facebook' },
-                { icon: Instagram,    href: '#',                          label: 'Instagram' },
-                { icon: Youtube,      href: '#',                          label: 'YouTube' },
-                { icon: MessageCircle,href: 'https://wa.me/237678346011',label: 'WhatsApp' },
+                { icon: Facebook,      href: '#',                           label: 'Facebook'  },
+                { icon: Instagram,     href: '#',                           label: 'Instagram' },
+                { icon: Youtube,       href: '#',                           label: 'YouTube'   },
+                { icon: MessageCircle, href: 'https://wa.me/237678346011', label: 'WhatsApp'  },
               ].map(({ icon: Icon, href, label }) => (
                 <Link key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined}
                   aria-label={label}
@@ -62,7 +68,7 @@ export default async function Footer() {
             <ul className="space-y-2.5">
               {quickLinks.map((k, i) => (
                 <li key={k}>
-                  <Link href={hrefs[i]}
+                  <Link href={loc(hrefs[i])}
                     className="text-white/70 hover:text-[var(--church-gold)] transition-colors text-sm">
                     {nt(k)}
                   </Link>

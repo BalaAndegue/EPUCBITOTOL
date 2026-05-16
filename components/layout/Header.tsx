@@ -2,208 +2,358 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Heart, Users, Calendar, MessageSquare, Phone, Home, Book, ChevronRight, Flame, Bell } from 'lucide-react';
+import {
+  Menu, X, Heart, Users, Calendar, MessageSquare,
+  Phone, Home, ChevronRight, Flame, Bell, Globe, HandHeart,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+// ─── colour tokens ────────────────────────────────────────────────────────────
+const GOLD        = '#C9973A';
+const GOLD_LIGHT  = '#E8B84B';
+const GOLD_DIM    = 'rgba(201,151,58,0.65)';
+const GOLD_RING   = 'rgba(201,151,58,0.40)';
+const GOLD_TINT   = 'rgba(201,151,58,0.12)';
+const WHITE_65    = 'rgba(255,255,255,0.65)';
+const WHITE_40    = 'rgba(255,255,255,0.40)';
+const WHITE_08    = 'rgba(255,255,255,0.08)';
+const WHITE_06    = 'rgba(255,255,255,0.06)';
+const WHITE_10    = 'rgba(255,255,255,0.10)';
+const BG_TOP      = 'rgba(8,9,14,0.75)';
+const BG_SCROLLED = 'rgba(8,9,14,0.92)';
+const DRAWER_BG   = '#0D1425';
+
+// ─── nav items ────────────────────────────────────────────────────────────────
+const nav = [
+  { key: 'home',       href: '/',           icon: Home },
+  { key: 'about',      href: '/about',      icon: Heart },
+  { key: 'activities', href: '/activities', icon: Calendar },
+  { key: 'messages',   href: '/messages',   icon: MessageSquare },
+  { key: 'community',  href: '/community',  icon: Users },
+  { key: 'network',    href: '/network',    icon: Globe },
+  { key: 'contact',    href: '/contact',    icon: Phone },
+] as const;
+
+// ─── Logo ─────────────────────────────────────────────────────────────────────
+function LogoMark({ size = 40 }: { size?: number }) {
+  const [err, setErr] = useState(false);
+  return err ? (
+    <div
+      className="rounded-full flex items-center justify-center flex-shrink-0"
+      style={{
+        width: size, height: size,
+        background: `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`,
+      }}
+    >
+      <Flame style={{ width: size * 0.5, height: size * 0.5, color: '#1C1917' }} />
+    </div>
+  ) : (
+    <Image
+      src="/yaounde-church-logo.png"
+      alt="ÉPUC Nkoabang"
+      width={size}
+      height={size}
+      className="rounded-full flex-shrink-0 object-cover"
+      onError={() => setErr(true)}
+      priority
+    />
+  );
+}
+
+// ─── component ────────────────────────────────────────────────────────────────
 export default function Header({ locale }: { locale: string }) {
-  const t = useTranslations('Navigation');
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const t        = useTranslations('Navigation');
   const pathname = usePathname();
-  const router = useRouter();
+  const router   = useRouter();
 
-  const nav = [
-    { key: 'home',       href: '/',           icon: Home },
-    { key: 'about',      href: '/about',      icon: Heart },
-    { key: 'activities', href: '/activities', icon: Calendar },
-    { key: 'messages',   href: '/messages',   icon: MessageSquare },
-    { key: 'community',  href: '/community',  icon: Users },
-    { key: 'contact',    href: '/contact',    icon: Phone },
-    { key: 'bibles',     href: '/bibles',     icon: Book },
-  ];
+  const [open,    setOpen]    = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
+  // scroll listener
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  // lock body when drawer open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
-  const link  = (p: string) => `/${locale}${p === '/' ? '' : p}`;
-  const active = (href: string) => href === '/' ? pathname === link(href) : pathname.startsWith(link(href));
-  const switchLocale = (l: string) => { router.push(pathname.replace(`/${locale}`, `/${l}`)); setOpen(false); };
+  // helpers
+  const link       = (p: string) => `/${locale}${p === '/' ? '' : p}`;
+  const active     = (href: string) =>
+    href === '/' ? pathname === link(href) : pathname.startsWith(link(href));
+  const switchLocale = (l: string) => {
+    router.push(pathname.replace(`/${locale}`, `/${l}`));
+    setOpen(false);
+  };
 
   return (
     <>
+      {/* ── Header bar ─────────────────────────────────────────────────────── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? 'rgba(7,10,20,0.97)' : 'rgba(7,10,20,0.85)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          boxShadow: scrolled ? '0 2px 24px rgba(0,0,0,0.45)' : 'none',
+          background: scrolled ? BG_SCROLLED : BG_TOP,
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          boxShadow: scrolled ? '0 2px 28px rgba(0,0,0,0.50)' : 'none',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
-          <div className="flex items-center justify-between" style={{ height: '72px' }}>
+          <div className="flex items-center" style={{ height: 72, gap: 0 }}>
 
-            {/* Logo */}
-            <Link href={link('/')} className="flex items-center gap-3 group py-3">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)' }}>
-                <Flame className="w-5 h-5" style={{ color: '#1C1917' }} />
-              </div>
+            {/* ── Logo (far left) ──────────────────────────────────────────── */}
+            <Link href={link('/')} className="flex items-center gap-3 flex-shrink-0 py-3 mr-auto lg:mr-0">
+              <LogoMark size={40} />
               <div>
-                <p className="font-heading font-bold text-white text-sm sm:text-base leading-tight">ÉPUC NKOABANG</p>
-                <p className="text-[10px] font-medium tracking-widest uppercase hidden sm:block" style={{ color: 'rgba(201,151,58,0.7)' }}>
+                <p className="font-heading font-bold text-white text-sm sm:text-base leading-tight tracking-wide">
+                  ÉPUC NKOABANG
+                </p>
+                <p
+                  className="text-[10px] font-medium tracking-widest uppercase hidden sm:block"
+                  style={{ color: GOLD_DIM }}
+                >
                   Yaoundé · Cameroun
                 </p>
               </div>
             </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5">
-              {nav.map(item => (
-                <Link key={item.key} href={link(item.href)}
-                  className="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                  style={active(item.href)
-                    ? { background: 'rgba(201,151,58,0.15)', color: '#C9973A' }
-                    : { color: 'rgba(255,255,255,0.70)' }}
-                  onMouseEnter={e => { if (!active(item.href)) (e.currentTarget as HTMLElement).style.cssText += 'color:white;background:rgba(255,255,255,0.08)'; }}
-                  onMouseLeave={e => { if (!active(item.href)) { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.70)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
-                >
-                  {t(item.key as any)}
-                </Link>
-              ))}
+            {/* ── Desktop nav (middle-right) ───────────────────────────────── */}
+            <nav className="hidden lg:flex items-center gap-1 mx-8">
+              {nav.map(item => {
+                const isAct = active(item.href);
+                return (
+                  <Link
+                    key={item.key}
+                    href={link(item.href)}
+                    className="relative group px-3 py-2 text-sm font-medium transition-colors duration-200"
+                    style={{ color: isAct ? GOLD_LIGHT : WHITE_65 }}
+                  >
+                    {/* hover underline animation */}
+                    <span
+                      className="absolute inset-x-3 bottom-1 h-px transition-transform duration-200 origin-left"
+                      style={{
+                        background: GOLD_LIGHT,
+                        transform: isAct ? 'scaleX(1)' : 'scaleX(0)',
+                      }}
+                      aria-hidden="true"
+                    />
+                    {/* text — white on hover via CSS group */}
+                    <span className="relative group-hover:text-white transition-colors duration-200">
+                      {t(item.key as any)}
+                    </span>
+                    {/* active gold dot */}
+                    {isAct && (
+                      <span
+                        className="absolute left-1/2 -translate-x-1/2 -bottom-0.5 w-1 h-1 rounded-full"
+                        style={{ background: GOLD }}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </Link>
+                );
+              })}
             </nav>
 
-            {/* Actions desktop */}
-            <div className="hidden lg:flex items-center gap-3">
-              {/* Langue */}
-              <div className="flex items-center rounded-lg overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
-                {['fr', 'en'].map(l => (
-                  <button key={l} onClick={() => switchLocale(l)}
-                    className="px-3 py-1.5 text-xs font-bold transition-all"
-                    style={locale === l
-                      ? { background: 'linear-gradient(135deg,#C9973A,#E8B84B)', color: '#1C1917' }
-                      : { color: 'rgba(255,255,255,0.50)' }}>
+            {/* ── Desktop actions (far right) ──────────────────────────────── */}
+            <div className="hidden lg:flex items-center gap-3 ml-auto">
+
+              {/* FR | EN pill toggle */}
+              <div
+                className="flex items-center rounded-full overflow-hidden"
+                style={{ border: `1px solid ${GOLD_RING}` }}
+              >
+                {(['fr', 'en'] as const).map((l, i) => (
+                  <button
+                    key={l}
+                    onClick={() => switchLocale(l)}
+                    className="px-3 py-1.5 text-xs font-bold transition-all duration-200"
+                    style={
+                      locale === l
+                        ? { background: `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`, color: '#1C1917' }
+                        : { color: WHITE_40, borderLeft: i ? `1px solid ${GOLD_RING}` : undefined }
+                    }
+                    aria-label={`Switch to ${l.toUpperCase()}`}
+                  >
                     {l.toUpperCase()}
                   </button>
                 ))}
               </div>
-              {/* Bouton Annonces */}
-              <Link href={link('/announcements')}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+
+              {/* Announcements bell pill */}
+              <Link
+                href={link('/announcements')}
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 hover:bg-opacity-25"
                 style={{
-                  background: active('/announcements') ? 'linear-gradient(135deg,#C9973A,#E8B84B)' : 'rgba(201,151,58,0.15)',
-                  color: active('/announcements') ? '#1C1917' : '#E8B84B',
-                  border: '1px solid rgba(201,151,58,0.4)',
-                }}>
+                  border: `1px solid ${GOLD_RING}`,
+                  color: GOLD_LIGHT,
+                  background: active('/announcements')
+                    ? `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`
+                    : GOLD_TINT,
+                }}
+              >
                 <Bell className="w-4 h-4" />
-                {t('announcements')}
+                <span>{t('announcements' as any)}</span>
               </Link>
-              <Link href={link('/donate')} className="btn-gold text-sm px-4 py-2 rounded-xl">
+
+              {/* Donate solid-gold button */}
+              <Link
+                href={link('/donate')}
+                className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
+                style={{
+                  background: `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`,
+                  color: '#1C1917',
+                }}
+              >
+                <HandHeart className="w-4 h-4" />
                 {t('donate_btn')}
               </Link>
             </div>
 
-            {/* Burger mobile */}
+            {/* ── Mobile hamburger (far right) ─────────────────────────────── */}
             <button
-              className="lg:hidden p-2 rounded-xl transition-colors text-white"
-              style={{ background: 'rgba(255,255,255,0.08)' }}
+              className="lg:hidden p-2 rounded-xl transition-colors text-white flex-shrink-0"
+              style={{ background: WHITE_08 }}
               onClick={() => setOpen(!open)}
+              aria-label={open
+                ? (locale === 'fr' ? 'Fermer le menu' : 'Close menu')
+                : (locale === 'fr' ? 'Ouvrir le menu' : 'Open menu')
+              }
             >
               {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
+
           </div>
         </div>
       </header>
 
-      {/* Overlay mobile */}
-      {open && (
-        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setOpen(false)} />
-      )}
+      {/* ── Mobile overlay ──────────────────────────────────────────────────── */}
+      <div
+        className={`fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
 
-      {/* Drawer mobile */}
+      {/* ── Mobile full-screen drawer ────────────────────────────────────────── */}
       <aside
-        className={`fixed top-0 right-0 h-full w-72 z-50 lg:hidden flex flex-col transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
-        style={{ background: '#0D1425' }}
+        className={`fixed top-0 right-0 h-full w-80 max-w-[90vw] z-50 lg:hidden flex flex-col transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        style={{ background: DRAWER_BG }}
+        aria-label="Menu navigation"
       >
-        {/* Drawer header */}
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)' }}>
-              <Flame className="w-4 h-4" style={{ color: '#1C1917' }} />
-            </div>
+        {/* Drawer header — logo top-left, close right */}
+        <div
+          className="flex items-center justify-between px-5 py-4"
+          style={{ borderBottom: `1px solid ${WHITE_10}` }}
+        >
+          <div className="flex items-center gap-3">
+            <LogoMark size={36} />
             <div>
-              <p className="font-bold text-white text-sm">ÉPUC Nkoabang</p>
-              <p className="text-[9px]" style={{ color: 'rgba(201,151,58,0.65)' }}>YAOUNDÉ · CAMEROUN</p>
+              <p className="font-bold text-white text-sm leading-tight">ÉPUC Nkoabang</p>
+              <p className="text-[9px] font-medium tracking-widest uppercase" style={{ color: GOLD_DIM }}>
+                Yaoundé · Cameroun
+              </p>
             </div>
           </div>
-          <button onClick={() => setOpen(false)}
-            className="p-1.5 rounded-lg text-white/40 hover:text-white transition-colors"
-            style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <button
+            onClick={() => setOpen(false)}
+            className="p-1.5 rounded-lg transition-colors"
+            style={{ background: WHITE_06, color: WHITE_40 }}
+            aria-label={locale === 'fr' ? 'Fermer le menu' : 'Close menu'}
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Liens nav */}
+        {/* Nav links with icons */}
         <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
           {nav.map(item => {
-            const Icon = item.icon;
+            const Icon  = item.icon;
             const isAct = active(item.href);
             return (
-              <Link key={item.key} href={link(item.href)} onClick={() => setOpen(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-xl transition-all group"
-                style={isAct
-                  ? { background: 'rgba(201,151,58,0.12)', color: '#C9973A' }
-                  : { color: 'rgba(255,255,255,0.65)' }}>
+              <Link
+                key={item.key}
+                href={link(item.href)}
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between px-4 py-3 rounded-xl transition-all"
+                style={
+                  isAct
+                    ? { background: GOLD_TINT, color: GOLD_LIGHT }
+                    : { color: WHITE_65 }
+                }
+              >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                    style={{ background: isAct ? 'rgba(201,151,58,0.15)' : 'rgba(255,255,255,0.06)' }}>
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center"
+                    style={{ background: isAct ? 'rgba(201,151,58,0.18)' : WHITE_06 }}
+                  >
                     <Icon className="w-4 h-4" />
                   </div>
                   <span className="font-medium text-sm">{t(item.key as any)}</span>
                 </div>
-                <ChevronRight className="w-4 h-4 opacity-40" />
+                <ChevronRight className="w-4 h-4" style={{ color: WHITE_40 }} />
               </Link>
             );
           })}
         </nav>
 
-        {/* Footer drawer */}
-        <div className="px-4 pb-6 pt-3 space-y-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.10)' }}>
-            {([['fr', '🇫🇷 Français'], ['en', '🇬🇧 English']] as const).map(([l, label]) => (
-              <button key={l} onClick={() => switchLocale(l)}
-                className="flex-1 py-2.5 text-xs font-bold transition-all"
-                style={locale === l
-                  ? { background: 'linear-gradient(135deg,#C9973A,#E8B84B)', color: '#1C1917' }
-                  : { color: 'rgba(255,255,255,0.50)' }}>
+        {/* Drawer footer — locale toggle + announcements + donate */}
+        <div
+          className="px-4 pb-6 pt-3 space-y-3"
+          style={{ borderTop: `1px solid ${WHITE_10}` }}
+        >
+          {/* FR / EN toggle */}
+          <div
+            className="flex rounded-xl overflow-hidden"
+            style={{ border: `1px solid ${WHITE_10}` }}
+          >
+            {([['fr', 'FR · Français'], ['en', 'EN · English']] as const).map(([l, label]) => (
+              <button
+                key={l}
+                onClick={() => switchLocale(l)}
+                className="flex-1 py-2.5 text-xs font-bold transition-all duration-200"
+                style={
+                  locale === l
+                    ? { background: `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`, color: '#1C1917' }
+                    : { color: WHITE_40 }
+                }
+              >
                 {label}
               </button>
             ))}
           </div>
-          {/* Bouton Annonces mobile */}
-          <Link href={link('/announcements')} onClick={() => setOpen(false)}
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all"
+
+          {/* Announcements */}
+          <Link
+            href={link('/announcements')}
+            onClick={() => setOpen(false)}
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all duration-200"
             style={{
-              background: 'rgba(201,151,58,0.15)',
-              color: '#E8B84B',
-              border: '1px solid rgba(201,151,58,0.35)',
-            }}>
+              background: GOLD_TINT,
+              color: GOLD_LIGHT,
+              border: `1px solid ${GOLD_RING}`,
+            }}
+          >
             <Bell className="w-4 h-4" />
-            {t('announcements' as any) || 'Annonces'}
+            {t('announcements' as any)}
           </Link>
-          <Link href={link('/donate')} onClick={() => setOpen(false)}
-            className="block w-full text-center py-3 rounded-xl font-bold text-sm"
-            style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)', color: '#1C1917' }}>
+
+          {/* Donate */}
+          <Link
+            href={link('/donate')}
+            onClick={() => setOpen(false)}
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90"
+            style={{
+              background: `linear-gradient(135deg,${GOLD},${GOLD_LIGHT})`,
+              color: '#1C1917',
+            }}
+          >
+            <HandHeart className="w-4 h-4" />
             {t('donate_btn')}
           </Link>
         </div>

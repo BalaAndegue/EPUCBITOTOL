@@ -20,7 +20,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const toastId = toast.loading('Envoi en cours...');
+    const toastId = toast.loading(t('toast_loading'));
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -28,12 +28,12 @@ export default function Contact() {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error();
-      toast.success('Message envoyé ! Nous vous répondrons bientôt.', { id: toastId });
+      toast.success(t('toast_success'), { id: toastId });
       setSent(true);
       setTimeout(() => setSent(false), 6000);
       setForm({ name: '', email: '', message: '' });
     } catch {
-      toast.error('Erreur lors de l\'envoi. Veuillez réessayer.', { id: toastId });
+      toast.error(t('toast_error'), { id: toastId });
     }
   };
 
