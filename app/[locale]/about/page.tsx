@@ -79,6 +79,10 @@ export default function About() {
                     <p className="text-[var(--church-text-soft)] text-sm leading-relaxed">{t(`${k}_text` as any)}</p>
                   </div>
                 ))}
+                <div className="card-soft p-5" style={{ borderLeft: '4px solid var(--church-gold)' }}>
+                  <h3 className="font-bold text-[var(--church-text)] mb-1.5 text-sm">{t('motto_title' as any)}</h3>
+                  <p className="text-[var(--church-gold)] font-semibold text-base">{t('motto_text' as any)}</p>
+                </div>
               </div>
             </div>
 

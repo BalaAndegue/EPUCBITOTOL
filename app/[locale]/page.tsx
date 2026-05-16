@@ -4,26 +4,27 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight, Play, Clock, MapPin, Star, Send,
-  Bell, MessageCircle, Facebook, ChevronDown,
+  MessageCircle, Facebook, ChevronDown,
   BookOpen, Flame, HandHeart, Users, Calendar,
   MessageSquare, Sparkles, Heart, Zap, Globe
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { getEvents, getTestimonials, submitTestimonial, getFloatingButtonStats } from '@/app/actions';
+import { getEvents, getTestimonials, submitTestimonial } from '@/app/actions';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-/* ── Images Unsplash contexte africain / foi ─────────────────── */
+/* ── Images — Contexte africain & foi ───────────────────────── */
 const IMG = {
-  hero1: '/church-1.webp',
-  hero2: '/church-2.webp',
-  hero3: '/church-3.webp',
+  hero1: '/epuc-church-1.jpg',
+  hero2: '/epuc-church-2.jpg',
+  hero3: '/epuc-church-3.jpg',
   hero4: '/church-cover.webp',
-  prayer: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1400&auto=format&fit=crop',
-  bible:  'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1400&auto=format&fit=crop',
-  worship:'https://images.unsplash.com/photo-1566288623394-377af472d81b?q=80&w=1400&auto=format&fit=crop',
-  community: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1400&auto=format&fit=crop',
-  cross:  'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1400&auto=format&fit=crop',
+  /* Unsplash — Afrique noire, communauté, foi */
+  prayer:    'https://images.unsplash.com/photo-1603354350317-6f7aaa5911c5?q=80&w=1400&auto=format&fit=crop',
+  bible:     'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1400&auto=format&fit=crop',
+  worship:   'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=1400&auto=format&fit=crop',
+  community: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1400&auto=format&fit=crop',
+  africa:    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1400&auto=format&fit=crop',
 };
 
 const features = [
@@ -50,17 +51,14 @@ export default function Home() {
   const [review, setReview]       = useState({ name: '', comment: '', rating: 5 });
   const [events, setEvents]       = useState<any[]>([]);
   const [testimonials, setTestimonials] = useState<any[]>([]);
-  const [bellCount, setBellCount] = useState(0);
-
   const heroImgs = [IMG.hero1, IMG.hero2, IMG.hero3, IMG.hero4];
 
   useEffect(() => {
     setVisible(true);
     (async () => {
-      const [ev, te, st] = await Promise.all([getEvents(), getTestimonials(), getFloatingButtonStats()]);
+      const [ev, te] = await Promise.all([getEvents(), getTestimonials()]);
       if (ev.success && ev.data)   setEvents(ev.data);
       if (te.success && te.data)   setTestimonials(te.data);
-      if (st.success && st.data)   setBellCount(st.data.recentAnnouncements);
     })();
     const id = setInterval(() => setImgIdx(p => (p + 1) % heroImgs.length), 5000);
     return () => clearInterval(id);
@@ -81,19 +79,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Bell flottant ───────────────────────────────────────── */}
-      <Link href={`/${locale}/announcements`} className="fixed bottom-6 right-6 z-[100]">
-        <div className="w-14 h-14 rounded-full shadow-2xl flex items-center justify-center relative"
-          style={{ background: 'linear-gradient(135deg,#C9973A,#E8B84B)' }}>
-          <Bell className="w-6 h-6 text-[#1C1917]" fill="currentColor" />
-          {bellCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
-              {bellCount}
-            </span>
-          )}
-        </div>
-      </Link>
-
       {/* ══════════════════════════════════════════════════════════
           HERO — Plein écran, images africaines, texte minimal
       ══════════════════════════════════════════════════════════ */}
@@ -338,7 +323,7 @@ export default function Home() {
       ══════════════════════════════════════════════════════════ */}
       <section className="relative py-16 sm:py-24 overflow-hidden dark-bg">
         <div className="absolute inset-0">
-          <img src={IMG.cross} alt="" className="img-section"
+          <img src={IMG.africa} alt="" className="img-section"
             onError={(e) => { (e.target as HTMLImageElement).src = IMG.worship; }} />
           <div className="absolute inset-0" style={{ background: 'rgba(7,10,20,.88)' }} />
         </div>
