@@ -1,18 +1,15 @@
+import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-/**
- * Middleware Edge-safe : vérification légère du cookie de session.
- * La vérification JWT complète se fait côté serveur dans les Server Actions.
- * Cela évite le warning CompressionStream (Node.js API) dans le Edge Runtime.
- */
-export async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+const intlMiddleware = createMiddleware({
+    locales: ['fr', 'en'],
+    defaultLocale: 'fr',
+    localeDetection: false,
+});
 
-    // Rediriger la racine "/" vers "/fr"
-    if (pathname === '/') {
-        return NextResponse.redirect(new URL('/fr', request.url));
-    }
+export function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl;
 
     // Protéger TOUTES les routes /admin/* sauf /admin/login
     if (pathname.includes('/admin') && !pathname.includes('/admin/login')) {
@@ -26,7 +23,6 @@ export async function middleware(request: NextRequest) {
         }
 
         // Vérification rapide : le cookie doit être un JWT valide (3 segments séparés par ".")
-        // La vérification cryptographique complète se fait dans les Server Actions.
         const parts = sessionCookie.split('.');
         if (parts.length !== 3) {
             const locale = pathname.split('/')[1] || 'fr';
@@ -36,7 +32,8 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    return NextResponse.next();
+    // Déléguer à next-intl pour le contexte de locale (headers x-next-intl-locale)
+    return intlMiddleware(request);
 }
 
 export const config = {

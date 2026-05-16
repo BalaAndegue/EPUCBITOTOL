@@ -1,6 +1,6 @@
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PWAInstaller from '@/components/PWAInstaller';
@@ -20,6 +20,7 @@ export const metadata = {
 };
 
 import CookieBanner from '@/components/CookieBanner';
+import FloatingAnnouncements from '@/components/FloatingAnnouncements';
 
 export default async function LocaleLayout({
   children,
@@ -28,6 +29,7 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
@@ -52,6 +54,7 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer />
+          <FloatingAnnouncements locale={locale} />
           <CookieBanner />
           <Toaster richColors position="top-center" />
           <Analytics />
