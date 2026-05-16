@@ -26,15 +26,15 @@ export default function AdminMessages() {
         loadData();
     }, []);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer cette prédication ?')) return;
-        const res = await deleteSermon(id);
-        if (res.success) {
-            toast.success('Prédication supprimée');
-            loadData();
-        } else {
-            toast.error('Erreur lors de la suppression');
-        }
+    const handleDelete = (id: string) => {
+        toast('Supprimer cette prédication ?', {
+            action: { label: 'Supprimer', onClick: async () => {
+                const res = await deleteSermon(id);
+                if (res.success) { toast.success('Prédication supprimée'); loadData(); }
+                else toast.error('Erreur lors de la suppression');
+            }},
+            cancel: { label: 'Annuler', onClick: () => {} },
+        });
     };
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {

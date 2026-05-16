@@ -25,11 +25,15 @@ export default function AdminNewsletter() {
 
   useEffect(() => { loadData(); }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer cet abonné ?')) return;
-    const res = await deleteSubscriber(id);
-    if (res.success) { toast.success('Abonné supprimé'); loadData(); }
-    else toast.error('Erreur lors de la suppression');
+  const handleDelete = (id: string) => {
+    toast('Supprimer cet abonné ?', {
+      action: { label: 'Supprimer', onClick: async () => {
+        const res = await deleteSubscriber(id);
+        if (res.success) { toast.success('Abonné supprimé'); loadData(); }
+        else toast.error('Erreur lors de la suppression');
+      }},
+      cancel: { label: 'Annuler', onClick: () => {} },
+    });
   };
 
   const handleSendVerse = async () => {

@@ -23,15 +23,15 @@ export default function AdminTestimonials() {
         loadData();
     }, []);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer ce témoignage ?')) return;
-        const res = await deleteTestimonial(id);
-        if (res.success) {
-            toast.success('Témoignage supprimé');
-            loadData();
-        } else {
-            toast.error('Erreur lors de la suppression');
-        }
+    const handleDelete = (id: string) => {
+        toast('Supprimer ce témoignage ?', {
+            action: { label: 'Supprimer', onClick: async () => {
+                const res = await deleteTestimonial(id);
+                if (res.success) { toast.success('Témoignage supprimé'); loadData(); }
+                else toast.error('Erreur lors de la suppression');
+            }},
+            cancel: { label: 'Annuler', onClick: () => {} },
+        });
     };
 
     const handleApprove = async (id: string) => {

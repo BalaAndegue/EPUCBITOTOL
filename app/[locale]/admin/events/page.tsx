@@ -23,11 +23,15 @@ export default function AdminEvents() {
 
     useEffect(() => { loadData(); }, []);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) return;
-        const res = await deleteEvent(id);
-        if (res.success) { toast.success('Événement supprimé'); loadData(); }
-        else toast.error('Erreur lors de la suppression');
+    const handleDelete = (id: string) => {
+        toast('Supprimer cet événement ?', {
+            action: { label: 'Supprimer', onClick: async () => {
+                const res = await deleteEvent(id);
+                if (res.success) { toast.success('Événement supprimé'); loadData(); }
+                else toast.error('Erreur lors de la suppression');
+            }},
+            cancel: { label: 'Annuler', onClick: () => {} },
+        });
     };
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
