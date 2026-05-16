@@ -1,152 +1,242 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+/* ================================================================
+   ÉPUC NKOABANG — Design System 2026
+   Inspired by Elevation · Hillsong · Bethel · Life.Church
+   Adapted for African Pentecostal excellence — Cameroon
+================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================================
+   CSS CUSTOM PROPERTIES
+================================================================ */
 @layer base {
   :root {
     /* ============================================================
-       CHURCH 2026 — Palette Sacrée (Foi · Sainteté · Unicité)
+       ÉPUC 2026 — Palette Sacrée Africaine
+       Foi · Sainteté · Unicité · Gloire Divine
     ============================================================ */
 
-    /* Nuit Sacrée — fond des sections héro & sombres */
-    --church-dark:        #070A14;
-    --church-navy:        #0D1425;
-    --church-navy-mid:    #111827;
+    /* Profondeurs — Nuit Sacrée */
+    --ink:             #08090E;   /* Le plus sombre — fond héro absolu */
+    --navy:            #0D1728;   /* Section sombre principale */
+    --navy-mid:        #11203A;   /* Section sombre secondaire */
 
-    /* Or Divin — accent principal, représente la gloire de Dieu */
-    --church-gold:        #C9973A;
-    --church-gold-light:  #E8B84B;
-    --church-gold-pale:   #FDE68A;
-    --church-gold-bg:     #FFFBEB;
+    /* Vert Forêt — Cameroun · Vie · Esprit-Saint */
+    --forest:          #0C3B2E;   /* Vert profond du drapeau camerounais */
+    --forest-mid:      #155C47;   /* Vert intermédiaire */
+    --forest-light:    #22C55E;   /* Vert vif pour accents */
 
-    /* Vert Espérance — vie, croissance, Esprit-Saint */
-    --church-green:       #1A5E3A;
-    --church-green-mid:   #16803A;
-    --church-green-light: #22C55E;
-    --church-green-soft:  #DCFCE7;
-    --church-green-bg:    #F0FDF4;
+    /* Or Divin — Gloire de Dieu */
+    --gold:            #D4A843;   /* Or africain chaud — accent principal */
+    --gold-bright:     #F0C440;   /* Or vif — survol & highlights */
+    --gold-pale:       #FFF8E1;   /* Or très pâle — fond teinté doux */
+    --gold-bg:         #FFFBF0;   /* Or crème — sections lumineuses chaudes */
 
-    /* Rouge Sang — sacrifice, rédemption, Pentecôte */
-    --church-red:         #7F1D1D;
-    --church-red-mid:     #B91C1C;
-    --church-red-light:   #EF4444;
-    --church-red-soft:    #FEE2E2;
-    --church-red-bg:      #FFF1F2;
+    /* Crème Ivoire — Sections lumineuses */
+    --cream:           #FDFBF7;   /* Ivoire chaud — fond principal clair */
+    --cream-deep:      #F7F3EC;   /* Ivoire profond — alternance de sections */
 
-    /* Violet Royal — Sanctification & Sainteté */
-    --church-purple:      #4C1D95;
-    --church-purple-mid:  #5B21B6;
-    --church-purple-soft: #EDE9FE;
+    /* Blancs */
+    --white:           #FFFFFF;
 
-    /* Bleu Royal — Foi & Profondeur */
-    --church-blue:        #1E3A8A;
-    --church-blue-mid:    #1D4ED8;
-    --church-blue-soft:   #EFF6FF;
-
-    /* Crème Chaleureux — fond des sections lumineuses */
-    --church-cream:       #FDFAF4;
-    --church-cream-deep:  #F9F4EA;
-    --church-white:       #FFFFFF;
-
-    /* Textes */
-    --church-text:        #1C1917;
-    --church-text-mid:    #44403C;
-    --church-text-soft:   #78716C;
-    --church-text-inv:    #FFFFFF;
+    /* Textes — contraste WCAG AA+ garanti */
+    --text:            #0F1117;   /* Quasi-noir — 19:1 sur crème */
+    --text-mid:        #1F2937;   /* Gris foncé — 13:1 sur crème */
+    --text-soft:       #4B5563;   /* Gris moyen — 7:1 sur crème (WCAG AA) */
+    --text-inv:        #FFFFFF;   /* Texte sur fond sombre */
 
     /* Bordures */
-    --church-border:      #E7E0D4;
-    --church-border-soft: #F0EBE0;
-
-    /* ============================================================
-       MAPPING TAILWIND/SHADCN
-    ============================================================ */
-    --color-primary:          var(--church-blue);
-    --color-primary-hover:    var(--church-blue-mid);
-    --color-secondary:        var(--church-gold);
-    --color-secondary-hover:  var(--church-gold-light);
-    --color-background:       var(--church-cream);
-    --color-surface:          var(--church-white);
-    --color-border:           var(--church-border);
-    --color-border-light:     var(--church-border-soft);
-    --color-text-primary:     var(--church-text);
-    --color-text-secondary:   var(--church-text-mid);
-    --color-text-muted:       var(--church-text-soft);
-
-    /* Couleurs hiérarchie contenu */
-    --color-course:           #1D4ED8;
-    --color-course-bg:        #EFF6FF;
-    --color-section:          #5B21B6;
-    --color-section-bg:       #EDE9FE;
-    --color-chapter:          #059669;
-    --color-chapter-bg:       #ECFDF5;
-    --color-paragraph:        #D97706;
-    --color-paragraph-bg:     #FFFBEB;
-    --color-notion:           #DC2626;
-    --color-notion-bg:        #FEF2F2;
-    --color-exercise:         #7C3AED;
-    --color-exercise-bg:      #F5F3FF;
-
-    /* ShadCN */
-    --background: 40 30% 98%;
-    --foreground: 20 14% 11%;
-    --primary: 224 71% 35%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 38 72% 50%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 40 20% 95%;
-    --muted-foreground: 25 15% 46%;
-    --accent: 262 60% 40%;
-    --accent-foreground: 0 0% 100%;
-    --card: 0 0% 100%;
-    --card-foreground: 20 14% 11%;
-    --border: 35 25% 88%;
-    --ring: 224 71% 35%;
-    --radius: 0.75rem;
-
-    /* Polices */
-    --font-body:    'Inter', sans-serif;
-    --font-heading: 'Playfair Display', serif;
-    --font-display: 'Cormorant Garamond', serif;
+    --border:          #E5DDD0;   /* Bordure principale */
+    --border-soft:     #EDE8DE;   /* Bordure subtile */
 
     /* Ombres */
-    --shadow-xs: 0 1px 3px rgb(0 0 0 / .04), 0 1px 2px rgb(0 0 0 / .03);
-    --shadow-sm: 0 2px 8px rgb(0 0 0 / .05), 0 1px 3px rgb(0 0 0 / .04);
-    --shadow-md: 0 4px 16px rgb(0 0 0 / .07), 0 2px 6px rgb(0 0 0 / .05);
-    --shadow-lg: 0 10px 30px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .05);
-    --shadow-xl: 0 20px 50px rgb(0 0 0 / .10), 0 8px 20px rgb(0 0 0 / .06);
-    --shadow-gold: 0 4px 20px rgb(201 151 58 / .25);
+    --shadow-xs:       0 1px 3px rgb(0 0 0 / .04), 0 1px 2px rgb(0 0 0 / .03);
+    --shadow-sm:       0 2px 8px rgb(0 0 0 / .05), 0 1px 3px rgb(0 0 0 / .04);
+    --shadow-md:       0 4px 16px rgb(0 0 0 / .07), 0 2px 6px rgb(0 0 0 / .05);
+    --shadow-lg:       0 10px 30px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .05);
+    --shadow-xl:       0 20px 50px rgb(0 0 0 / .10), 0 8px 20px rgb(0 0 0 / .06);
+    --shadow-gold:     0 4px 24px rgba(212, 168, 67, .28);
+    --shadow-gold-lg:  0 8px 40px rgba(212, 168, 67, .36);
+    --shadow-forest:   0 4px 20px rgba(12, 59, 46, .30);
+
+    /* Polices */
+    --font-body:       'DM Sans', sans-serif;
+    --font-heading:    'DM Serif Display', serif;
+    --font-display:    'Cormorant Garamond', serif;
+
+    /* ============================================================
+       RÉTROCOMPATIBILITÉ — anciens noms church-* toujours mappés
+       (Les composants existants continuent de fonctionner)
+    ============================================================ */
+
+    /* Nuit Sacrée */
+    --church-dark:          var(--ink);
+    --church-navy:          var(--navy);
+    --church-navy-mid:      var(--navy-mid);
+
+    /* Or Divin */
+    --church-gold:          var(--gold);
+    --church-gold-light:    var(--gold-bright);
+    --church-gold-pale:     var(--gold-pale);
+    --church-gold-bg:       var(--gold-bg);
+
+    /* Vert Espérance */
+    --church-green:         var(--forest);
+    --church-green-mid:     var(--forest-mid);
+    --church-green-light:   var(--forest-light);
+    --church-green-soft:    #DCFCE7;
+    --church-green-bg:      #F0FDF4;
+
+    /* Rouge Sang */
+    --church-red:           #7F1D1D;
+    --church-red-mid:       #B91C1C;
+    --church-red-light:     #EF4444;
+    --church-red-soft:      #FEE2E2;
+    --church-red-bg:        #FFF1F2;
+
+    /* Violet Royal */
+    --church-purple:        #4C1D95;
+    --church-purple-mid:    #5B21B6;
+    --church-purple-soft:   #EDE9FE;
+
+    /* Bleu Royal */
+    --church-blue:          #1E3A8A;
+    --church-blue-mid:      #1D4ED8;
+    --church-blue-soft:     #EFF6FF;
+
+    /* Crème */
+    --church-cream:         var(--cream);
+    --church-cream-deep:    var(--cream-deep);
+    --church-white:         var(--white);
+
+    /* Textes */
+    --church-text:          var(--text);
+    --church-text-mid:      var(--text-mid);
+    --church-text-soft:     var(--text-soft);
+    --church-text-inv:      var(--text-inv);
+
+    /* Bordures */
+    --church-border:        var(--border);
+    --church-border-soft:   var(--border-soft);
+
+    /* ============================================================
+       MAPPING TAILWIND / SHADCN
+    ============================================================ */
+    --color-primary:           var(--navy);
+    --color-primary-hover:     var(--navy-mid);
+    --color-secondary:         var(--gold);
+    --color-secondary-hover:   var(--gold-bright);
+    --color-background:        var(--cream);
+    --color-surface:           var(--white);
+    --color-border:            var(--border);
+    --color-border-light:      var(--border-soft);
+    --color-text-primary:      var(--text);
+    --color-text-secondary:    var(--text-mid);
+    --color-text-muted:        var(--text-soft);
+
+    /* Couleurs hiérarchie contenu */
+    --color-course:            #1D4ED8;
+    --color-course-bg:         #EFF6FF;
+    --color-section:           #5B21B6;
+    --color-section-bg:        #EDE9FE;
+    --color-chapter:           #059669;
+    --color-chapter-bg:        #ECFDF5;
+    --color-paragraph:         #D97706;
+    --color-paragraph-bg:      #FFFBEB;
+    --color-notion:            #DC2626;
+    --color-notion-bg:         #FEF2F2;
+    --color-exercise:          #7C3AED;
+    --color-exercise-bg:       #F5F3FF;
+
+    /* ============================================================
+       SHADCN — Variables HSL
+    ============================================================ */
+    --background:              48 43% 98%;        /* --cream */
+    --foreground:              220 28% 7%;         /* --text */
+    --primary:                 217 57% 11%;        /* --navy */
+    --primary-foreground:      0 0% 100%;
+    --secondary:               38 61% 56%;         /* --gold */
+    --secondary-foreground:    220 28% 7%;
+    --muted:                   40 20% 95%;
+    --muted-foreground:        220 10% 36%;
+    --accent:                  157 60% 14%;        /* --forest */
+    --accent-foreground:       0 0% 100%;
+    --card:                    0 0% 100%;
+    --card-foreground:         220 28% 7%;
+    --popover:                 0 0% 100%;
+    --popover-foreground:      220 28% 7%;
+    --destructive:             0 72% 51%;
+    --destructive-foreground:  0 0% 100%;
+    --border:                  34 28% 86%;
+    --input:                   34 28% 86%;
+    --ring:                    38 61% 56%;         /* gold ring on focus */
+    --radius:                  0.75rem;
   }
 }
 
 /* ================================================================
-   BASE
+   BASE STYLES
 ================================================================ */
 @layer base {
-  * { @apply border-[var(--church-border)]; }
 
-  html { scroll-behavior: smooth; }
-
-  body {
-    background-color: var(--church-cream);
-    color: var(--church-text);
-    font-family: var(--font-body);
-    -webkit-font-smoothing: antialiased;
+  * {
+    @apply border-[var(--border)];
   }
 
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typographic helpers */
   .font-heading  { font-family: var(--font-heading); }
   .font-display  { font-family: var(--font-display); }
-  .font-inter    { font-family: var(--font-body); }
-}/* ================================================================
-   COMPOSANTS
+  .font-body     { font-family: var(--font-body); }
+  .font-inter    { font-family: var(--font-body); }   /* compat alias */
+
+  /* Headings default to display font */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  /* ---- Focus visible — accessibility ---- */
+  :focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ================================================================
+   COMPONENTS
 ================================================================ */
 @layer components {
 
-  /* ---- CARTES ---- */
+  /* ----------------------------------------------------------------
+     CARTES
+  ---------------------------------------------------------------- */
+
+  /* Carte standard sur fond clair */
   .card-soft {
-    background: var(--church-white);
-    border: 1px solid var(--church-border-soft);
+    background: var(--white);
+    border: 1px solid var(--border-soft);
     border-radius: 1rem;
     box-shadow: var(--shadow-sm);
     transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
@@ -154,13 +244,14 @@
   .card-soft:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
-    border-color: var(--church-border);
+    border-color: var(--border);
   }
 
+  /* Alias interactif */
   .card-hover {
     @apply transition-all duration-300;
-    background: var(--church-white);
-    border: 1px solid var(--church-border-soft);
+    background: var(--white);
+    border: 1px solid var(--border-soft);
     border-radius: 1rem;
     box-shadow: var(--shadow-sm);
   }
@@ -169,7 +260,7 @@
     transform: translateY(-3px);
   }
 
-  /* Carte vitrine (glass sur fond sombre) */
+  /* Carte glass — sur fond sombre */
   .card-glass {
     background: rgba(255, 255, 255, .08);
     border: 1px solid rgba(255, 255, 255, .14);
@@ -177,197 +268,349 @@
     -webkit-backdrop-filter: blur(16px);
     border-radius: 1rem;
     transition: background .25s ease;
-    color: rgba(255,255,255,.90);
+    color: rgba(255, 255, 255, .92);
   }
-  .card-glass:hover { background: rgba(255, 255, 255, .13); }
+  .card-glass:hover {
+    background: rgba(255, 255, 255, .13);
+  }
 
-  /* Carte gold-glass */
+  /* Carte glass or — sur fond sombre, accent doré */
   .card-glass-gold {
-    background: rgba(201, 151, 58, .10);
-    border: 1px solid rgba(201, 151, 58, .25);
+    background: rgba(212, 168, 67, .10);
+    border: 1px solid rgba(212, 168, 67, .28);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 1rem;
-    color: rgba(255,255,255,.90);
+    color: rgba(255, 255, 255, .92);
+    transition: background .25s ease, border-color .25s ease;
+  }
+  .card-glass-gold:hover {
+    background: rgba(212, 168, 67, .16);
+    border-color: rgba(212, 168, 67, .40);
   }
 
-  /* ---- BOUTONS ---- */
+  /* Carte forêt-vert (Cameroun / Esprit) */
+  .card-green {
+    background: #F0FDF4;
+    border: 1px solid rgba(12, 59, 46, .18);
+    border-radius: 1rem;
+    transition: box-shadow .25s ease;
+  }
+  .card-green:hover {
+    box-shadow: 0 4px 16px rgba(12, 59, 46, .12);
+  }
+
+  /* Carte rouge urgence */
+  .card-red {
+    background: #FFF1F2;
+    border: 1px solid rgba(185, 28, 28, .18);
+    border-radius: 1rem;
+  }
+
+  /* ----------------------------------------------------------------
+     BOUTONS
+  ---------------------------------------------------------------- */
+
+  /* Bouton principal — navy profond */
   .btn-primary {
     @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
-    background: var(--church-blue);
-    box-shadow: 0 4px 14px rgba(30, 58, 138, .30);
+    font-family: var(--font-body);
+    background: var(--navy);
+    box-shadow: 0 4px 14px rgba(13, 23, 40, .35);
   }
   .btn-primary:hover {
-    background: var(--church-blue-mid);
-    box-shadow: 0 6px 20px rgba(30, 58, 138, .40);
+    background: var(--navy-mid);
+    box-shadow: 0 6px 20px rgba(13, 23, 40, .45);
     transform: translateY(-1px);
   }
 
+  /* Bouton or — glorieux, CTA principal */
   .btn-gold {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
-    background: linear-gradient(135deg, var(--church-gold) 0%, var(--church-gold-light) 100%);
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+    color: var(--ink);
     box-shadow: var(--shadow-gold);
-    color: #1C1917;
   }
   .btn-gold:hover {
     filter: brightness(1.08);
     transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(201, 151, 58, .35);
+    box-shadow: var(--shadow-gold-lg);
   }
 
+  /* Bouton outline — bordure couleur primaire */
+  .btn-outline {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    font-family: var(--font-body);
+    border: 1.5px solid var(--navy);
+    color: var(--navy);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  /* Bouton outline blanc — sur fond sombre */
+  .btn-outline-white {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    font-family: var(--font-body);
+    border: 1.5px solid rgba(255, 255, 255, .42);
+    color: var(--white);
+    background: rgba(255, 255, 255, .06);
+    backdrop-filter: blur(8px);
+  }
+  .btn-outline-white:hover {
+    background: rgba(255, 255, 255, .14);
+    border-color: rgba(255, 255, 255, .68);
+  }
+
+  /* Bouton secondaire — or solide */
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
+    font-family: var(--font-body);
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--gold-bright);
+    transform: translateY(-1px);
+  }
+
+  /* Bouton vert forêt — Cameroun / vie */
+  .btn-green {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+    box-shadow: var(--shadow-forest);
+  }
+  .btn-green:hover {
+    background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-light) 100%);
+    transform: translateY(-1px);
+  }
+
+  /* Bouton drapeau camerounais — événements patriotiques */
   .btn-cameroon {
-    background: linear-gradient(135deg, #007A5E 0%, #CE1126 50%, #FCD116 100%);
     @apply px-7 py-3.5 rounded-xl font-semibold text-white inline-flex items-center gap-2 transition-all duration-300;
-    box-shadow: 0 4px 16px rgba(0,0,0,.20);
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, #007A5E 0%, #CE1126 50%, #FCD116 100%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .20);
   }
   .btn-cameroon:hover {
     filter: brightness(1.07);
     transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(0,0,0,.28);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, .28);
   }
 
-  .btn-outline-white {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
-    border: 1.5px solid rgba(255,255,255,.40);
-    color: white;
-    background: rgba(255,255,255,.06);
-    backdrop-filter: blur(8px);
-  }
-  .btn-outline-white:hover {
-    background: rgba(255,255,255,.14);
-    border-color: rgba(255,255,255,.65);
+  /* ----------------------------------------------------------------
+     BADGES
+  ---------------------------------------------------------------- */
+
+  /* Badge or — évangile, gloire */
+  .badge-gold {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    font-family: var(--font-body);
+    background: rgba(212, 168, 67, .12);
+    color: #8B6415;   /* plus foncé que --gold pour WCAG AA sur fond clair */
+    border: 1px solid rgba(139, 100, 21, .35);
   }
 
-  .btn-outline {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2;
-    border: 1.5px solid var(--church-blue);
-    color: var(--church-blue);
-  }
-  .btn-outline:hover {
-    background: var(--church-blue);
-    color: white;
-  }
-
-  .btn-secondary {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
-    background: var(--church-gold);
-  }
-  .btn-secondary:hover {
-    background: var(--church-gold-light);
-    transform: translateY(-1px);
+  /* Badge vert — vie, croissance, espérance */
+  .badge-green {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
+    font-family: var(--font-body);
+    background: #DCFCE7;
+    color: var(--forest);
+    border: 1px solid rgba(12, 59, 46, .22);
   }
 
-  /* ---- OVERLAYS HERO ---- */
+  /* Badge bleu — foi, profondeur */
+  .badge-blue {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    font-family: var(--font-body);
+    background: rgba(30, 58, 138, .08);
+    color: #1A3578;   /* légèrement plus foncé pour meilleur contraste */
+    border: 1px solid rgba(30, 58, 138, .20);
+  }
+
+  /* Badge blanc — sur fond sombre */
+  .badge-white {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+    font-family: var(--font-body);
+    background: rgba(255, 255, 255, .12);
+    color: rgba(255, 255, 255, .92);
+    border: 1px solid rgba(255, 255, 255, .22);
+  }
+
+  /* Badge rouge — urgence, sacrifice */
+  .badge-red {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
+    font-family: var(--font-body);
+    background: #FEE2E2;
+    color: #B91C1C;
+    border: 1px solid rgba(185, 28, 28, .20);
+  }
+
+  /* Alias rétrocompat */
+  .badge-primary { @apply badge-blue; }
+
+  /* ---- Pill annonces — compact, or sur sombre ---- */
+  .announcement-pill {
+    @apply inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold leading-none;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(212, 168, 67, .40);
+    min-width: 1.25rem;
+  }
+
+  /* ----------------------------------------------------------------
+     VERSET / CITATION
+  ---------------------------------------------------------------- */
+
+  .verse-card {
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(135deg, rgba(212, 168, 67, .07) 0%, rgba(212, 168, 67, .03) 100%);
+    @apply p-5 rounded-r-xl;
+  }
+  .verse-text {
+    font-family: var(--font-display);
+    @apply italic text-lg leading-relaxed;
+    color: var(--text-mid);
+  }
+
+  /* ----------------------------------------------------------------
+     SÉPARATEUR OR
+  ---------------------------------------------------------------- */
+
+  .divider-gold {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--gold) 35%,
+      var(--gold-bright) 65%,
+      transparent 100%
+    );
+    @apply my-6 mx-auto w-24;
+    border: none;
+  }
+
+  /* ----------------------------------------------------------------
+     SECTIONS — fonds
+  ---------------------------------------------------------------- */
+
+  /* Fond sombre profond (héro, closing CTA) */
+  .section-dark {
+    background: linear-gradient(160deg, var(--ink) 0%, var(--navy) 100%);
+    color: rgba(255, 255, 255, .87);
+  }
+
+  /* Fond navy (sections intermédiaires sombres) */
+  .section-navy {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: rgba(255, 255, 255, .87);
+  }
+
+  /* Fond forêt vert */
+  .section-green {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+    color: rgba(255, 255, 255, .90);
+  }
+
+  /* Fond vert doux */
+  .section-green-soft {
+    background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+    color: var(--text);
+  }
+
+  /* Fond crème ivoire */
+  .section-cream {
+    background: var(--cream);
+    color: var(--text);
+  }
+
+  /* Fond crème dégradé */
+  .section-warm {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+    color: var(--text);
+  }
+
+  /* Fond or doux */
+  .section-gold-soft {
+    background: linear-gradient(135deg, var(--gold-bg) 0%, var(--gold-pale) 100%);
+    color: var(--text);
+  }
+
+  /* Fond rouge doux */
+  .section-red-soft {
+    background: linear-gradient(135deg, #FFF1F2 0%, #FEE2E2 100%);
+    color: var(--text);
+  }
+
+  /* Fond violet doux */
+  .section-purple-soft {
+    background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+    color: var(--text);
+  }
+
+  /* Classe utilitaire pour sections sombres génériques */
+  .dark-bg {
+    background: var(--navy);
+    color: rgba(255, 255, 255, .87);
+  }
+
+  /* ----------------------------------------------------------------
+     OVERLAYS HERO
+  ---------------------------------------------------------------- */
+
   .hero-gradient-overlay {
     background: linear-gradient(
       160deg,
-      rgba(7, 10, 20, .78) 0%,
-      rgba(13, 20, 37, .65) 45%,
-      rgba(30, 58, 138, .35) 100%
+      rgba(8, 9, 14, .80) 0%,
+      rgba(13, 23, 40, .66) 45%,
+      rgba(12, 59, 46, .32) 100%
     );
   }
 
-  /* ---- SECTION BACKGROUNDS ---- */
-  .section-dark {
-    background: linear-gradient(160deg, var(--church-dark) 0%, var(--church-navy) 100%);
-    color: rgba(255,255,255,.85);
-  }
-  .section-navy {
-    background: linear-gradient(135deg, var(--church-navy) 0%, #162040 100%);
-    color: rgba(255,255,255,.85);
-  }
-  .section-cream {
-    background: var(--church-cream);
-    color: var(--church-text);
-  }
-  .section-warm {
-    background: linear-gradient(180deg, var(--church-cream) 0%, var(--church-cream-deep) 100%);
-    color: var(--church-text);
-  }
-  .section-gold-soft {
-    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-    color: var(--church-text);
-  }
-  .section-purple-soft {
-    background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
-    color: var(--church-text);
-  }
-  .section-green {
-    background: linear-gradient(135deg, var(--church-green) 0%, #1A6B41 100%);
-    color: rgba(255,255,255,.88);
-  }
-  .section-green-soft {
-    background: linear-gradient(135deg, var(--church-green-bg) 0%, var(--church-green-soft) 100%);
-    color: var(--church-text);
-  }
-  .section-red-soft {
-    background: linear-gradient(135deg, var(--church-red-bg) 0%, var(--church-red-soft) 100%);
-    color: var(--church-text);
-  }
+  .overlay-dark    { @apply absolute inset-0; background: rgba(0, 0, 0, .55); }
+  .overlay-darker  { @apply absolute inset-0; background: rgba(0, 0, 0, .70); }
+  .overlay-navy    { @apply absolute inset-0; background: rgba(8, 9, 14, .65); }
 
-  /* Badges verts et rouges */
-  .badge-green {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
-    background: var(--church-green-soft);
-    color: var(--church-green);
-    border: 1px solid rgba(26,94,58,0.20);
-  }
-  .badge-red {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
-    background: var(--church-red-soft);
-    color: var(--church-red-mid);
-    border: 1px solid rgba(185,28,28,0.20);
-  }
+  /* ----------------------------------------------------------------
+     TEXTE — couleurs et dégradés
+  ---------------------------------------------------------------- */
 
-  /* Bouton vert */
-  .btn-green {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-white inline-flex items-center justify-center gap-2;
-    background: linear-gradient(135deg, var(--church-green), var(--church-green-mid));
-    box-shadow: 0 4px 14px rgba(26,94,58,.30);
-  }
-  .btn-green:hover {
-    background: linear-gradient(135deg, var(--church-green-mid), var(--church-green-light));
-    transform: translateY(-1px);
-  }
+  .text-gold        { color: var(--gold); }
+  .text-gold-light  { color: var(--gold-bright); }
+  .text-church-green { color: var(--forest); }
+  .text-church-red   { color: #B91C1C; }
 
-  /* Carte Espoir (vert doux) */
-  .card-green {
-    background: var(--church-green-bg);
-    border: 1px solid rgba(26,94,58,.18);
-    border-radius: 1rem;
-    transition: box-shadow .25s ease;
-  }
-  .card-green:hover { box-shadow: 0 4px 16px rgba(26,94,58,.12); }
-
-  /* Carte Sang / Urgence (rouge doux) */
-  .card-red {
-    background: var(--church-red-bg);
-    border: 1px solid rgba(185,28,28,.18);
-    border-radius: 1rem;
-  }
-
-  /* ---- TEXTE ---- */
-  .text-gold { color: var(--church-gold); }
-  .text-gold-light { color: var(--church-gold-light); }
-  .text-church-green { color: var(--church-green); }
-  .text-church-red   { color: var(--church-red-mid); }
+  /* Dégradé or — titres glorieux */
   .text-gradient-gold {
-    background: linear-gradient(135deg, var(--church-gold) 0%, var(--church-gold-light) 100%);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Dégradé divin — titres héro premium */
   .text-gradient-divine {
-    background: linear-gradient(135deg, #C9973A 0%, #F0C060 50%, #FBBF24 100%);
+    background: linear-gradient(135deg, #D4A843 0%, #F0C440 50%, #FBBF24 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Dégradé vert forêt */
   .text-gradient-green {
-    background: linear-gradient(135deg, var(--church-green) 0%, var(--church-green-light) 100%);
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Dégradé bleu foi */
   .text-gradient-blue {
     background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
     -webkit-background-clip: text;
@@ -375,103 +618,141 @@
     background-clip: text;
   }
 
-  /* ---- BADGES ---- */
-  .badge-gold {
-    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
-    background: linear-gradient(135deg, rgba(201,151,58,.15) 0%, rgba(240,192,96,.10) 100%);
-    color: var(--church-gold);
-    border: 1px solid rgba(201,151,58,.30);
-  }
-  .badge-blue {
-    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
-    background: rgba(30,58,138,.08);
-    color: var(--church-blue);
-    border: 1px solid rgba(30,58,138,.20);
-  }
-  .badge-white {
-    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide;
-    background: rgba(255,255,255,.12);
-    color: rgba(255,255,255,.90);
-    border: 1px solid rgba(255,255,255,.20);
+  /* ----------------------------------------------------------------
+     IMAGES
+  ---------------------------------------------------------------- */
+
+  /* Image couvrant son conteneur (relatif) */
+  .img-cover {
+    @apply w-full h-full object-cover;
   }
 
-  /* Ancienne compat */
-  .badge-primary { @apply badge-blue; }
-
-  /* ---- VERSET / CITATION ---- */
-  .verse-card {
-    border-left: 3px solid var(--church-gold);
-    background: linear-gradient(135deg, rgba(201,151,58,.06) 0%, rgba(201,151,58,.03) 100%);
-    @apply p-5 rounded-r-xl;
-  }
-  .verse-text {
-    font-family: var(--font-display);
-    @apply italic text-lg leading-relaxed;
-  }
-
-  /* ---- SEPARATEUR OR ---- */
-  .divider-gold {
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, var(--church-gold) 40%, var(--church-gold-light) 60%, transparent 100%);
-    @apply my-6 mx-auto w-24;
+  /* Image en absolu couvrant la section (parent doit être relative) */
+  .img-section {
+    @apply absolute inset-0 w-full h-full object-cover;
   }
 }
 
 /* ================================================================
-   ANIMATIONS
+   KEYFRAME ANIMATIONS
 ================================================================ */
+
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(.94); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(212, 168, 67, .30);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(212, 168, 67, .65), 0 0 60px rgba(212, 168, 67, .20);
+  }
+}
+
 @keyframes blob {
-  0%   { transform: translate(0px,0px) scale(1); }
-  33%  { transform: translate(30px,-50px) scale(1.1); }
-  66%  { transform: translate(-20px,20px) scale(.9); }
-  100% { transform: translate(0px,0px) scale(1); }
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(30px, -50px) scale(1.1); }
+  66%  { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
 }
+
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; }
-  50%       { opacity: .65; }
+  50%       { opacity: 0.60; }
 }
+
 @keyframes shimmer {
   0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  100% { background-position:  200% center; }
 }
 
-.animate-fade-in   { animation: fade-in  .7s ease-out both; }
-.animate-slide-up  { animation: slide-up .8s ease-out both; }
-.animate-scale-in  { animation: scale-in .6s ease-out both; }
-.animate-blob      { animation: blob 7s infinite; }
-.animate-pulse-soft{ animation: pulse-soft 2.5s ease-in-out infinite; }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-15deg); }
+  40%       { transform: rotate(15deg); }
+  60%       { transform: rotate(-10deg); }
+  80%       { transform: rotate(8deg); }
+}
+
+@keyframes ring-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(212,168,67,.70); }
+  70%  { box-shadow: 0 0 0 12px rgba(212,168,67,.0); }
+  100% { box-shadow: 0 0 0 0 rgba(212,168,67,.0); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slide-in-bottom {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
 
 /* ================================================================
-   IMAGE UTILITAIRES
+   ANIMATION UTILITY CLASSES
 ================================================================ */
-.img-cover {
-  @apply w-full h-full object-cover;
-}
-.img-section {
-  @apply absolute inset-0 w-full h-full object-cover;
-}
 
-/* Overlay plein écran standard */
-.overlay-dark    { @apply absolute inset-0; background: rgba(0,0,0,.55); }
-.overlay-darker  { @apply absolute inset-0; background: rgba(0,0,0,.70); }
-.overlay-navy    { @apply absolute inset-0; background: rgba(7,10,20,.65); }
+.animate-fade-in        { animation: fade-in        0.7s ease-out both; }
+.animate-slide-up       { animation: slide-up       0.8s ease-out both; }
+.animate-scale-in       { animation: scale-in       0.6s ease-out both; }
+.animate-float          { animation: float          3.5s ease-in-out infinite; }
+.animate-glow-pulse     { animation: glow-pulse     2.8s ease-in-out infinite; }
+.animate-blob           { animation: blob           7s infinite; }
+.animate-pulse-soft     { animation: pulse-soft     2.5s ease-in-out infinite; }
+.animate-wiggle         { animation: wiggle         0.5s ease-in-out; }
+.animate-ring-pulse     { animation: ring-pulse     1.5s ease-in-out infinite; }
+.animate-slide-in-right { animation: slide-in-right 0.4s cubic-bezier(.16,1,.3,1) both; }
+.animate-slide-in-bottom{ animation: slide-in-bottom 0.4s cubic-bezier(.16,1,.3,1) both; }
+
+/* Staggered delays — utiles pour listes de cartes */
+.animate-delay-100  { animation-delay: 100ms; }
+.animate-delay-200  { animation-delay: 200ms; }
+.animate-delay-300  { animation-delay: 300ms; }
+.animate-delay-400  { animation-delay: 400ms; }
+.animate-delay-500  { animation-delay: 500ms; }
 
 /* ================================================================
-   SCROLLBAR
+   SCROLLBAR CUSTOM
 ================================================================ */
+
 ::-webkit-scrollbar        { width: 6px; }
-::-webkit-scrollbar-track  { background: var(--church-cream-deep); }
-::-webkit-scrollbar-thumb  { background: var(--church-gold); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--church-gold-light); }
+::-webkit-scrollbar-track  { background: var(--cream-deep); }
+::-webkit-scrollbar-thumb  { background: var(--gold); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
