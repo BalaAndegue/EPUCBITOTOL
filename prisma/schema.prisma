@@ -1,16 +1,13 @@
-// Schema PRODUCTION pour Vercel (PostgreSQL)
-// Utiliser avec : prisma generate --schema=prisma/schema.postgresql.prisma
-// Voir le README_DEPLOY.md pour les instructions complètes
+// Schema LOCAL (SQLite) — dev uniquement.
+// Vercel remplace ce fichier par schema.postgresql.prisma au moment du build (voir vercel.json).
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  // Pour Neon/Supabase avec connection pooler, décommenter :
-  // directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Event {
