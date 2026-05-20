@@ -30,11 +30,22 @@ export async function getSermons() {
 /**
  * Create a new Sermon (Admin only)
  */
-export async function createSermon(data: { title: string; preacher: string; date: Date; description?: string; verses?: string; videoUrl?: string; audioUrl?: string }) {
+export async function createSermon(data: { title: string; title_en?: string; preacher: string; date: Date; description?: string; description_en?: string; verses?: string; verses_en?: string; videoUrl?: string; audioUrl?: string }) {
     try {
         await checkAdmin();
         const newSermon = await prisma.sermon.create({
-            data,
+            data: {
+                title: data.title,
+                title_en: data.title_en || null,
+                preacher: data.preacher,
+                date: data.date,
+                description: data.description,
+                description_en: data.description_en || null,
+                verses: data.verses,
+                verses_en: data.verses_en || null,
+                videoUrl: data.videoUrl,
+                audioUrl: data.audioUrl,
+            },
         });
 
         revalidatePath('/[locale]', 'page');
