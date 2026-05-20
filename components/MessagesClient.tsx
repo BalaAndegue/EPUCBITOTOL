@@ -3,14 +3,18 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Search, X, Play, Calendar, BookOpen, Mic2, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { pick } from '@/lib/i18n-pick';
 
 type Sermon = {
   id: string;
   title: string;
+  title_en?: string | null;
   preacher: string;
   date: Date | string;
   verses?: string | null;
+  verses_en?: string | null;
   description?: string | null;
+  description_en?: string | null;
   videoUrl?: string | null;
   audioUrl?: string | null;
 };
@@ -46,16 +50,16 @@ function SermonCardExpanded({ msg, locale }: { msg: Sermon; locale?: string }) {
 
         <h3 className="font-bold text-base leading-snug mb-1 group-hover:text-[var(--church-blue)] transition-colors"
           style={{ color: 'var(--church-text)' }}>
-          {msg.title}
+          {pick(msg.title, msg.title_en, locale ?? 'fr')}
         </h3>
 
-        {msg.verses && (
+        {(msg.verses || msg.verses_en) && (
           <p className="text-xs italic mb-2" style={{ color: 'var(--church-gold)' }}>
-            {msg.verses}
+            {pick(msg.verses, msg.verses_en, locale ?? 'fr')}
           </p>
         )}
 
-        {msg.description && (
+        {(msg.description || msg.description_en) && (
           <div className="mb-3">
             <p
               className="text-sm leading-relaxed"
@@ -67,7 +71,7 @@ function SermonCardExpanded({ msg, locale }: { msg: Sermon; locale?: string }) {
                 overflow: expanded ? 'visible' : 'hidden',
               }}
             >
-              {msg.description}
+              {pick(msg.description, msg.description_en, locale ?? 'fr')}
             </p>
             {hasLongDesc && (
               <button

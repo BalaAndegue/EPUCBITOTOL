@@ -6,6 +6,7 @@ import { Bell, Megaphone, ArrowLeft, Clock, AlertTriangle, Info } from 'lucide-r
 import { getAnnouncements } from '@/app/actions';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { pick } from '@/lib/i18n-pick';
 
 const IMG = {
   hero: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1400&auto=format&fit=crop',
@@ -120,11 +121,11 @@ export default function Announcements() {
                     </div>
 
                     <h3 className="font-bold text-xl sm:text-2xl leading-tight mb-4 text-gray-900 group-hover:text-[var(--church-gold)] transition-colors">
-                      {item.title}
+                      {pick(item.title, item.title_en, locale)}
                     </h3>
 
                     <p className="text-sm sm:text-base leading-relaxed text-gray-600 flex-1 line-clamp-5">
-                      {item.content}
+                      {pick(item.content, item.content_en, locale)}
                     </p>
                   </div>
                 </article>
