@@ -11,15 +11,17 @@ datasource db {
 }
 
 model Event {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  date        DateTime
-  time        String
-  location    String?
-  coverImage  String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  title_en       String?
+  description    String
+  description_en String?
+  date           DateTime
+  time           String
+  location       String?
+  coverImage     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Testimonial {
@@ -27,6 +29,7 @@ model Testimonial {
   name        String
   role        String?
   content     String
+  content_en  String?
   rating      Int      @default(5)
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -36,7 +39,9 @@ model Testimonial {
 model Announcement {
   id          String   @id @default(cuid())
   title       String
+  title_en    String?
   content     String
+  content_en  String?
   isUrgent    Boolean  @default(false)
   coverImage  String?
   createdAt   DateTime @default(now())
@@ -60,14 +65,17 @@ model Subscriber {
 }
 
 model Sermon {
-  id          String   @id @default(cuid())
-  title       String
-  preacher    String
-  date        DateTime
-  verses      String?
-  description String?
-  videoUrl    String?
-  audioUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  title_en       String?
+  preacher       String
+  date           DateTime
+  verses         String?
+  verses_en      String?
+  description    String?
+  description_en String?
+  videoUrl       String?
+  audioUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
