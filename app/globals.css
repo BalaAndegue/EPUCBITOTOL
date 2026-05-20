@@ -4,7 +4,7 @@
    Adapted for African Pentecostal excellence — Cameroon
 ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -63,10 +63,11 @@
     --shadow-gold-lg:  0 8px 40px rgba(212, 168, 67, .36);
     --shadow-forest:   0 4px 20px rgba(12, 59, 46, .30);
 
-    /* Polices */
-    --font-body:       'DM Sans', sans-serif;
-    --font-heading:    'DM Serif Display', serif;
-    --font-display:    'Cormorant Garamond', serif;
+    /* Polices — Elevation · Life.Church · Bethel inspired */
+    --font-body:       'Inter', system-ui, sans-serif;
+    --font-heading:    'Playfair Display', Georgia, serif;
+    --font-display:    'Playfair Display', Georgia, serif;
+    --font-accent:     'Lora', Georgia, serif;
 
     /* ============================================================
        RÉTROCOMPATIBILITÉ — anciens noms church-* toujours mappés

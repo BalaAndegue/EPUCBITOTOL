@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   Menu, X, Heart, Users, Calendar, MessageSquare,
-  Phone, Home, ChevronRight, Flame, Bell, Globe, HandHeart,
+  Phone, Home, ChevronRight, Flame, Bell, Globe, HandHeart, Sparkles,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -27,13 +27,14 @@ const DRAWER_BG   = '#0D1425';
 
 // ─── nav items ────────────────────────────────────────────────────────────────
 const nav = [
-  { key: 'home',       href: '/',           icon: Home },
-  { key: 'about',      href: '/about',      icon: Heart },
-  { key: 'activities', href: '/activities', icon: Calendar },
-  { key: 'messages',   href: '/messages',   icon: MessageSquare },
-  { key: 'community',  href: '/community',  icon: Users },
-  { key: 'network',    href: '/network',    icon: Globe },
-  { key: 'contact',    href: '/contact',    icon: Phone },
+  { key: 'home',        href: '/',            icon: Home },
+  { key: 'about',       href: '/about',       icon: Heart },
+  { key: 'activities',  href: '/activities',  icon: Calendar },
+  { key: 'messages',    href: '/messages',    icon: MessageSquare },
+  { key: 'marketplace', href: '/marketplace', icon: Sparkles },
+  { key: 'community',   href: '/community',   icon: Users },
+  { key: 'network',     href: '/network',     icon: Globe },
+  { key: 'contact',     href: '/contact',     icon: Phone },
 ] as const;
 
 // ─── Logo ─────────────────────────────────────────────────────────────────────

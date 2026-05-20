@@ -1,0 +1,118 @@
+# ================================================================
+# ÉPUC Nkoabang — GitLab CI/CD → Vercel
+# ================================================================
+# Prérequis : variables à définir dans GitLab > Settings > CI/CD > Variables
+#   VERCEL_TOKEN      → votre token personnel Vercel
+#   VERCEL_ORG_ID     → affiché dans vercel.json ou dans les settings du projet
+#   VERCEL_PROJECT_ID → affiché dans vercel.json ou dans les settings du projet
+# ================================================================
+
+image: node:20-alpine
+
+stages:
+  - validate
+  - deploy
+
+# ── Cache des dépendances node_modules ────────────────────────
+.cache: &cache
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+    policy: pull-push
+
+# ── Installation des dépendances ──────────────────────────────
+.install: &install
+  before_script:
+    - npm ci --prefer-offline --no-audit
+
+# ─────────────────────────────────────────────────────────────
+# ÉTAPE 1 : Validation (TypeScript + ESLint)
+# Tourne sur toutes les branches et merge requests
+# ─────────────────────────────────────────────────────────────
+typecheck:
+  stage: validate
+  <<: *cache
+  <<: *install
+  script:
+    - npx tsc --noEmit
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+lint:
+  stage: validate
+  <<: *cache
+  <<: *install
+  script:
+    - npm run lint -- --max-warnings=0
+  allow_failure: true   # Ne bloque pas le pipeline sur les warnings existants
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# ─────────────────────────────────────────────────────────────
+# ÉTAPE 2A : Déploiement PREVIEW (Merge Requests)
+# Crée une URL de prévisualisation unique par MR
+# ─────────────────────────────────────────────────────────────
+deploy:preview:
+  stage: deploy
+  <<: *cache
+  <<: *install
+  script:
+    - npm install -g vercel --prefer-offline
+    - |
+      DEPLOY_URL=$(vercel deploy \
+        --token=$VERCEL_TOKEN \
+        --scope=$VERCEL_ORG_ID \
+        --yes \
+        2>&1 | tail -1)
+    - echo "Preview URL → $DEPLOY_URL"
+    - |
+      # Poster l'URL de preview comme note sur la MR
+      curl --silent --request POST \
+        --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes" \
+        --form "body=🚀 **Preview Vercel déployé** : $DEPLOY_URL" || true
+  environment:
+    name: preview/$CI_COMMIT_REF_SLUG
+    url: $DEPLOY_URL
+    on_stop: stop:preview
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+stop:preview:
+  stage: deploy
+  script:
+    - echo "Environnement de preview arrêté"
+  environment:
+    name: preview/$CI_COMMIT_REF_SLUG
+    action: stop
+  when: manual
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# ─────────────────────────────────────────────────────────────
+# ÉTAPE 2B : Déploiement PRODUCTION (branche main uniquement)
+# Équivalent à un push sur Vercel Production
+# ─────────────────────────────────────────────────────────────
+deploy:production:
+  stage: deploy
+  <<: *cache
+  <<: *install
+  script:
+    - npm install -g vercel --prefer-offline
+    - |
+      vercel deploy \
+        --token=$VERCEL_TOKEN \
+        --scope=$VERCEL_ORG_ID \
+        --prod \
+        --yes
+  environment:
+    name: production
+    url: https://epucbitotol.vercel.app
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: on_success

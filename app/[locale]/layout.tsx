@@ -21,6 +21,8 @@ export const metadata = {
 
 import CookieBanner from '@/components/CookieBanner';
 import FloatingAnnouncements from '@/components/FloatingAnnouncements';
+import OnboardingGuide from '@/components/OnboardingGuide';
+import BibleAssistant from '@/components/BibleAssistant';
 
 export default async function LocaleLayout({
   children,
@@ -55,6 +57,8 @@ export default async function LocaleLayout({
           </main>
           <Footer />
           <FloatingAnnouncements locale={locale} />
+          <BibleAssistant locale={locale} />
+          <OnboardingGuide />
           <CookieBanner />
           <Toaster richColors position="top-center" />
           <Analytics />
