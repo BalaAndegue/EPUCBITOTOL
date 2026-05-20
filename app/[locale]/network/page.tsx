@@ -203,6 +203,145 @@ const CITIES: CityData[] = [
   },
 ];
 
+/* ─────────────────────────────────────────────────────────────────
+   CAMEROON SVG MAP — red church markers per city
+───────────────────────────────────────────────────────────────── */
+function CameroonMapSVG({
+  cities, activeCity, onSelectCity, locale, cityNameMap,
+}: {
+  cities: CityData[];
+  activeCity: string;
+  onSelectCity: (id: string) => void;
+  locale: string;
+  cityNameMap: Record<string, string>;
+}) {
+  // Projection: lng [7.8, 16.8] → x [0,440], lat [13.5, 1.0] → y [0,460]
+  const toXY = (lng: number, lat: number) => ({
+    x: Math.round(((lng - 7.8) / 9.0) * 440),
+    y: Math.round(((13.5 - lat) / 12.5) * 460),
+  });
+
+  // Simplified Cameroon polygon (approximate border)
+  const outline = [
+    [8.50, 3.98], [8.82, 4.22], [9.28, 4.02], [9.72, 3.82],
+    [9.88, 3.10], [9.35, 2.20], [9.82, 2.00], [11.30, 2.00],
+    [13.28, 2.15], [16.05, 1.72], [16.15, 4.60], [16.05, 7.00],
+    [15.50, 9.00], [15.20, 10.10], [14.42, 11.28], [15.08, 11.98],
+    [14.18, 12.70], [13.35, 12.48], [11.82, 13.05], [10.48, 13.08],
+    [8.72, 12.48], [8.52, 10.80], [8.50, 7.60], [8.50, 3.98],
+  ].map(([lng, lat]) => toXY(lng, lat));
+
+  const pathD = outline.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ') + ' Z';
+
+  // Label offsets to prevent overlap for nearby cities (Douala/Buea)
+  const labelOffset: Record<string, [number, number]> = {
+    buea:    [-2, -18],
+    douala:  [14, -18],
+    yaounde: [0, -18],
+    bamenda: [0, -18],
+  };
+
+  return (
+    <div
+      className="rounded-3xl overflow-hidden shadow-2xl"
+      style={{ background: '#080E1C', border: '1px solid rgba(212,168,67,0.25)' }}
+    >
+      <svg viewBox="0 0 440 460" className="w-full" style={{ display: 'block', maxHeight: 400 }}>
+        {/* Ocean background */}
+        <rect width="440" height="460" fill="#080E1C" />
+
+        {/* Subtle grid */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <g key={i}>
+            <line x1={i * 55 + 27} y1="0" x2={i * 55 + 27} y2="460"
+              stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+            <line x1="0" y1={i * 57 + 28} x2="440" y2={i * 57 + 28}
+              stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+          </g>
+        ))}
+
+        {/* Cameroon land */}
+        <path d={pathD}
+          fill="rgba(22,40,80,0.9)"
+          stroke="rgba(212,168,67,0.45)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+
+        {/* City markers */}
+        {cities.map(city => {
+          const { x, y } = toXY(city.lng, city.lat);
+          const isActive = activeCity === city.id;
+          const isFr = locale === 'fr';
+          const label = cityNameMap[city.id] ?? (isFr ? city.name_fr : city.name_en);
+          const [lx, ly] = labelOffset[city.id] ?? [0, -18];
+
+          return (
+            <g key={city.id} onClick={() => onSelectCity(city.id)} style={{ cursor: 'pointer' }}>
+              {/* Animated pulse ring when active */}
+              {isActive && (
+                <>
+                  <circle cx={x} cy={y} fill="none" stroke="rgba(239,68,68,0.5)" strokeWidth="1.5">
+                    <animate attributeName="r" from="10" to="26" dur="1.6s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" from="0.8" to="0" dur="1.6s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx={x} cy={y} fill="none" stroke="rgba(239,68,68,0.3)" strokeWidth="1">
+                    <animate attributeName="r" from="10" to="26" dur="1.6s" begin="0.4s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" from="0.6" to="0" dur="1.6s" begin="0.4s" repeatCount="indefinite" />
+                  </circle>
+                </>
+              )}
+
+              {/* Glow halo */}
+              <circle cx={x} cy={y} r={isActive ? 15 : 11} fill="rgba(239,68,68,0.18)" />
+
+              {/* Main red dot */}
+              <circle cx={x} cy={y} r={isActive ? 9 : 7}
+                fill="#EF4444"
+                stroke={isActive ? '#FCA5A5' : 'rgba(255,255,255,0.85)'}
+                strokeWidth={isActive ? 2 : 1.5}
+              />
+
+              {/* Church count inside dot */}
+              <text x={x} y={y + 1} textAnchor="middle" dominantBaseline="middle"
+                fill="white" fontSize="8" fontWeight="bold"
+                style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                {city.churches.length}
+              </text>
+
+              {/* City label */}
+              <text
+                x={x + lx} y={y + ly}
+                textAnchor="middle"
+                fill={isActive ? '#F0C440' : 'rgba(255,255,255,0.78)'}
+                fontSize={isActive ? '11' : '10'}
+                fontWeight={isActive ? 'bold' : 'normal'}
+                style={{ pointerEvents: 'none', userSelect: 'none' }}
+              >
+                {label}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* North arrow */}
+        <g transform="translate(412,16)">
+          <text textAnchor="middle" fill="rgba(212,168,67,0.8)" fontSize="10" fontWeight="bold" y="8">N</text>
+          <polygon points="0,12 -3,22 0,19 3,22" fill="rgba(212,168,67,0.7)" />
+        </g>
+
+        {/* Legend */}
+        <g transform="translate(14,440)">
+          <circle cx="7" cy="7" r="5" fill="#EF4444" stroke="white" strokeWidth="1" />
+          <text x="16" y="11" fill="rgba(255,255,255,0.5)" fontSize="9">
+            {locale === 'fr' ? 'Assemblée ÉPUI' : 'UPCI Assembly'}
+          </text>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 const VALUE_KEYS = ['v1','v2','v3','v4','v5','v6','v7','v8','v9','v10','v11','v12','v13','v14'] as const;
 const WOMEN_POLICY_KEYS = ['policy_w1','policy_w2','policy_w3','policy_w4','policy_w5'] as const;
 const MEN_POLICY_KEYS   = ['policy_m1','policy_m2','policy_m3','policy_m4','policy_m5'] as const;
@@ -432,12 +571,13 @@ export default function Network() {
             <p className="text-[var(--text-soft)] max-w-xl mx-auto">{t('geo_subtitle')}</p>
           </div>
 
-          <div className="rounded-3xl overflow-hidden border border-[var(--border)] shadow-lg mb-8" style={{ height: 380 }}>
-            <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=8.2%2C1.6%2C16.5%2C12.5&amp;layer=mapnik"
-              className="w-full h-full border-0"
-              title={t('geo_title')}
-              loading="lazy"
+          <div className="mb-8">
+            <CameroonMapSVG
+              cities={CITIES}
+              activeCity={activeCity}
+              onSelectCity={setActiveCity}
+              locale={locale}
+              cityNameMap={cityNameMap}
             />
           </div>
 
