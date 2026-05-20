@@ -264,10 +264,34 @@
         "legal": "Mentions Légales"
     },
     "Cookie": {
+        "aria_label": "Bandeau de consentement aux cookies",
         "title": "Respect de votre vie privée",
+        "subtitle": "ÉPUC Nkoabang · Paramètres cookies",
         "desc": "Nous utilisons des cookies pour améliorer votre expérience, analyser notre audience et sécuriser la plateforme.",
+        "close": "Fermer et refuser",
+        "manage": "Gérer mes préférences",
+        "cat_necessary": "Cookies essentiels",
+        "cat_necessary_desc": "Indispensables au bon fonctionnement du site. Ne peuvent pas être désactivés.",
+        "cat_analytics": "Analytiques",
+        "cat_analytics_desc": "Nous aident à comprendre comment les visiteurs utilisent le site (Vercel Analytics).",
+        "cat_marketing": "Marketing",
+        "cat_marketing_desc": "Permettent de personnaliser les publicités et de mesurer leur efficacité.",
+        "save_prefs": "Enregistrer mes préférences",
         "decline": "Refuser",
         "accept": "Tout Accepter"
+    },
+    "Bible": {
+        "open_label": "Ouvrir l'assistant biblique",
+        "title": "Assistant Biblique",
+        "subtitle": "Posez vos questions sur la Parole de Dieu",
+        "close": "Réduire",
+        "empty_title": "Que voulez-vous savoir ?",
+        "empty_desc": "Posez une question sur la Bible, une prière ou la vie chrétienne.",
+        "placeholder": "Votre question biblique...",
+        "send": "Envoyer",
+        "thinking": "En train de réfléchir...",
+        "powered_by": "Alimenté par Gemini AI",
+        "ai_error": "Une erreur est survenue. Veuillez réessayer."
     },
     "Newsletter": {
         "title": "Notre Newsletter",

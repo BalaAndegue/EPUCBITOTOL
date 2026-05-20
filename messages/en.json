@@ -264,10 +264,34 @@
         "legal": "Legal Notice"
     },
     "Cookie": {
+        "aria_label": "Cookie consent banner",
         "title": "Respect for your privacy",
+        "subtitle": "EPUC Nkoabang · Cookie settings",
         "desc": "We use cookies to improve your experience, analyze our audience, and secure the platform.",
+        "close": "Close and decline",
+        "manage": "Manage my preferences",
+        "cat_necessary": "Essential cookies",
+        "cat_necessary_desc": "Required for the website to function. Cannot be disabled.",
+        "cat_analytics": "Analytics",
+        "cat_analytics_desc": "Help us understand how visitors use the site (Vercel Analytics).",
+        "cat_marketing": "Marketing",
+        "cat_marketing_desc": "Allow us to personalize ads and measure their effectiveness.",
+        "save_prefs": "Save my preferences",
         "decline": "Decline",
         "accept": "Accept All"
+    },
+    "Bible": {
+        "open_label": "Open Bible assistant",
+        "title": "Bible Assistant",
+        "subtitle": "Ask your questions about God's Word",
+        "close": "Minimize",
+        "empty_title": "What would you like to know?",
+        "empty_desc": "Ask a question about the Bible, prayer, or Christian life.",
+        "placeholder": "Your Bible question...",
+        "send": "Send",
+        "thinking": "Thinking...",
+        "powered_by": "Powered by Gemini AI",
+        "ai_error": "An error occurred. Please try again."
     },
     "Newsletter": {
         "title": "Our Newsletter",
