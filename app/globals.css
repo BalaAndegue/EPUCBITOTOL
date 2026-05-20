@@ -757,3 +757,40 @@
 ::-webkit-scrollbar-track  { background: var(--cream-deep); }
 ::-webkit-scrollbar-thumb  { background: var(--gold); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
+
+/* ================================================================
+   LEAFLET — dark theme overrides for church map popups
+================================================================ */
+.church-popup .leaflet-popup-content-wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+.church-popup .leaflet-popup-content {
+  margin: 0;
+}
+.church-popup .leaflet-popup-tip-container {
+  display: none;
+}
+.leaflet-container {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.leaflet-control-zoom a {
+  background: #0D1728 !important;
+  color: rgba(212,168,67,0.9) !important;
+  border-color: rgba(212,168,67,0.25) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #162240 !important;
+  color: #D4A843 !important;
+}
+.leaflet-control-attribution {
+  background: rgba(0,0,0,0.55) !important;
+  color: rgba(255,255,255,0.35) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(255,255,255,0.45) !important;
+}
